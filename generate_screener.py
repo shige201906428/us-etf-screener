@@ -31,7 +31,7 @@ def get_etf_data():
     for ticker in TICKERS:
         try:
             t = yf.Ticker(ticker)
-            # 最新の履歴データを取得（週末などを考慮して5日分取得）
+            # 最新の履歴データを取得（5日分）
             hist = t.history(period="5d")
             if hist.empty:
                 continue
@@ -42,18 +42,27 @@ def get_etf_data():
             # 前日比（％）を計算
             change = ((latest["Close"] - prev["Close"]) / prev["Close"]) * 100
             
-            # 基本情報の取得
+            # 配当利回りの取得
             info = t.info
             name = info.get("shortName", ticker)
+            
+            # trailingAnnualDividendYield または yield から取得（1 = 100%）
+            div_yield = info.get("trailingAnnualDividendYield")
+            if div_yield is None:
+                div_yield = info.get("yield", 0)
+            
+            # %表記に変換（例: 0.015 -> 1.50）
+            div_yield_pct = div_yield * 100 if div_yield else 0.0
             
             data_list.append({
                 "Ticker": ticker,
                 "Name": name,
                 "Price": round(latest["Close"], 2),
                 "Change": round(change, 2),
-                "Volume": int(latest["Volume"])
+                "Volume": int(latest["Volume"]),
+                "Yield": round(div_yield_pct, 2)
             })
-            print(f"Fetched: {ticker}")
+            print(f"Fetched: {ticker} (Yield: {div_yield_pct:.2f}%)")
         except Exception as e:
             print(f"Error fetching {ticker}: {e}")
             
@@ -77,12 +86,17 @@ def generate_html(df):
             change_style = "color: #6c757d; font-weight: bold;"
             sign = ""
             
+        # 配当利回りの表示（0%を超える場合は緑色の太字で強調）
+        yield_style = "color: #198754; font-weight: bold;" if row['Yield'] > 0 else "color: #6c757d;"
+        yield_display = f"{row['Yield']:.2f}%" if row['Yield'] > 0 else "-"
+
         table_rows += f"""
                         <tr>
                             <td><span class="badge bg-dark text-white px-3 py-2" style="font-size: 0.9rem;">{row['Ticker']}</span></td>
                             <td><span class="fw-bold">{row['Name']}</span></td>
                             <td class="text-end fw-bold">${row['Price']:,.2f}</td>
                             <td class="text-end" style="{change_style}">{sign}{row['Change']:.2f}%</td>
+                            <td class="text-end" style="{yield_style}">{yield_display}</td>
                             <td class="text-end text-muted">{row['Volume']:,}</td>
                         </tr>"""
 
@@ -163,7 +177,7 @@ def generate_html(df):
             <div class="row align-items-center">
                 <div class="col-md-8 text-center text-md-start">
                     <h1 class="fw-bold mb-1" style="letter-spacing: -0.5px;">🇺🇸 米国ETF デイリースクリーナー</h1>
-                    <p class="mb-0 text-white-50">主要な米国ETFのパフォーマンスを毎日自動でピックアップ</p>
+                    <p class="mb-0 text-white-50">主要な米国ETFのパフォーマンスと配当率を毎日自動でピックアップ</p>
                 </div>
                 <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
                     <span class="refresh-tag">
@@ -180,11 +194,12 @@ def generate_html(df):
                 <table class="table table-hover align-middle">
                     <thead>
                         <tr>
-                            <th scope="col" style="width: 15%;">ティッカー</th>
-                            <th scope="col" style="width: 35%;">銘柄名</th>
+                            <th scope="col" style="width: 12%;">ティッカー</th>
+                            <th scope="col" style="width: 28%;">銘柄名</th>
                             <th scope="col" class="text-end" style="width: 15%;">最新価格</th>
                             <th scope="col" class="text-end" style="width: 15%;">前日比</th>
-                            <th scope="col" class="text-end" style="width: 20%;">出来高</th>
+                            <th scope="col" class="text-end" style="width: 15%;">配当利回り</th>
+                            <th scope="col" class="text-end" style="width: 15%;">出来高</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -211,7 +226,7 @@ def generate_html(df):
 
 if __name__ == "__main__":
     df_etf = get_etf_data()
-    # 変化率の大きい順（降順）にソートしてHTMLを生成
+    # 変化率（前日比）の大きい順に並び替えてHTMLを生成
     if not df_etf.empty:
         df_etf = df_etf.sort_values(by="Change", ascending=False)
         generate_html(df_etf)

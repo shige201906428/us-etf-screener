@@ -31,7 +31,7 @@ def get_etf_data():
     for ticker in TICKERS:
         try:
             t = yf.Ticker(ticker)
-            # 最新の履歴データを取得（5日分）
+            # 最新の履歴データを取得
             hist = t.history(period="5d")
             if hist.empty:
                 continue
@@ -46,12 +46,12 @@ def get_etf_data():
             info = t.info
             name = info.get("shortName", ticker)
             
-            # trailingAnnualDividendYield または yield から取得（1 = 100%）
+            # trailingAnnualDividendYield または yield から取得
             div_yield = info.get("trailingAnnualDividendYield")
             if div_yield is None:
                 div_yield = info.get("yield", 0)
             
-            # %表記に変換（例: 0.015 -> 1.50）
+            # %表記に変換
             div_yield_pct = div_yield * 100 if div_yield else 0.0
             
             data_list.append({
@@ -226,9 +226,9 @@ def generate_html(df):
 
 if __name__ == "__main__":
     df_etf = get_etf_data()
-    # 変化率（前日比）の大きい順に並び替えてHTMLを生成
+    # ▽ ここで配当利回り（Yield）の大きい順（降順）に並び替えます
     if not df_etf.empty:
-        df_etf = df_etf.sort_values(by="Change", ascending=False)
+        df_etf = df_etf.sort_values(by="Yield", ascending=False)
         generate_html(df_etf)
         print(f"Successfully generated index.html with {len(df_etf)} items.")
     else:

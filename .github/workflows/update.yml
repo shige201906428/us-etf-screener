@@ -2,9 +2,15 @@ name: Daily ETF Screener Update
 
 on:
   schedule:
-    # 毎日 UTC 21:00（日本時間 午前6:00）に実行
     - cron: '0 21 * * *'
-  workflow_dispatch: # 手動実行ボタンも有効化
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# ▽ ここに環境変数の設定を追加して警告を消します
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -24,7 +30,6 @@ jobs:
         pip install yfinance pandas
 
     - name: Run Python script
-        # ここでスクリプトを実行し、index.html を上書きします
       run: python generate_screener.py
 
     - name: Commit and Push changes

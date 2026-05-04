@@ -46,12 +46,10 @@ def get_etf_data():
             info = t.info
             name = info.get("shortName", ticker)
             
-            # trailingAnnualDividendYield または yield から取得
             div_yield = info.get("trailingAnnualDividendYield")
             if div_yield is None:
                 div_yield = info.get("yield", 0)
             
-            # %表記に変換
             div_yield_pct = div_yield * 100 if div_yield else 0.0
             
             data_list.append({
@@ -69,13 +67,17 @@ def get_etf_data():
     return pd.DataFrame(data_list)
 
 def generate_html(df):
-    # 日本時間の現在日時を生成
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # テーブル行のHTML生成
     table_rows = ""
     for _, row in df.iterrows():
-        # プラス（赤）とマイナス（青）のカラーリング
+        # SPYD または XLF の行に特別な背景色（薄い緑色）と枠線用のスタイルを設定
+        if row['Ticker'] in ["SPYD", "XLF"]:
+            row_style = 'style="background-color: #e8f5e9 !important; border-left: 5px solid #2e7d32;"'
+        else:
+            row_style = ""
+
+        # 前日比のカラーリング
         if row['Change'] > 0:
             change_style = "color: #dc3545; font-weight: bold;"
             sign = "+"
@@ -86,12 +88,12 @@ def generate_html(df):
             change_style = "color: #6c757d; font-weight: bold;"
             sign = ""
             
-        # 配当利回りの表示（0%を超える場合は緑色の太字で強調）
+        # 配当利回りの表示
         yield_style = "color: #198754; font-weight: bold;" if row['Yield'] > 0 else "color: #6c757d;"
         yield_display = f"{row['Yield']:.2f}%" if row['Yield'] > 0 else "-"
 
         table_rows += f"""
-                        <tr>
+                        <tr {row_style}>
                             <td><span class="badge bg-dark text-white px-3 py-2" style="font-size: 0.9rem;">{row['Ticker']}</span></td>
                             <td><span class="fw-bold">{row['Name']}</span></td>
                             <td class="text-end fw-bold">${row['Price']:,.2f}</td>
@@ -226,7 +228,6 @@ def generate_html(df):
 
 if __name__ == "__main__":
     df_etf = get_etf_data()
-    # ▽ ここで配当利回り（Yield）の大きい順（降順）に並び替えます
     if not df_etf.empty:
         df_etf = df_etf.sort_values(by="Yield", ascending=False)
         generate_html(df_etf)

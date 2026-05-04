@@ -2,8 +2,11 @@ import yfinance as yf
 import pandas as pd
 from datetime import datetime
 
-# 米国主要ETF 100選
+# 米国主要ETF 100選 ＋ 追加個別銘柄（重複削除済み）
 TICKERS = [
+    # --- 追加された高配当個別銘柄（タンカー等） ---
+    "FRO", "DHT", "NAT", "TRMD",
+
     # --- 1. 主要株価指数 ---
     "SPY", "VOO", "IVV", "QQQ", "DIA", "IWM", "MDY", "IWB", "VTI", "ITOT",
     # --- 2. 高配当・増配・バリュー株 ---
@@ -68,8 +71,8 @@ def generate_html(df):
 
     table_rows = ""
     for _, row in df.iterrows():
-        # SPYD または XLF の行をハイライト
-        if row['Ticker'] in ["SPYD", "XLF"]:
+        # ハイライト対象：SPYD, XLF, FRO, DHT, NAT, TRMD
+        if row['Ticker'] in ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD"]:
             row_style = 'style="background-color: #e8f5e9 !important; border-left: 4px solid #2e7d32;"'
         else:
             row_style = ""
@@ -163,7 +166,6 @@ def generate_html(df):
             display: inline-block;
             backdrop-filter: blur(4px);
         }}
-        /* スマホ向けに文字サイズを微調整 */
         @media (max-width: 576px) {{
             .table thead th {{
                 font-size: 0.65rem;
@@ -185,8 +187,8 @@ def generate_html(df):
         <div class="container">
             <div class="row align-items-center text-center text-md-start">
                 <div class="col-12 col-md-8">
-                    <h1 class="fw-bold mb-1" style="letter-spacing: -0.5px; font-size: 1.4rem;">🇺🇸 米国ETF デイリー</h1>
-                    <p class="mb-2 mb-md-0 text-white-50" style="font-size: 0.75rem;">主要ETFのパフォーマンスと配当率を毎日自動取得</p>
+                    <h1 class="fw-bold mb-1" style="letter-spacing: -0.5px; font-size: 1.4rem;">🇺🇸 米国ETF・株式 デイリー</h1>
+                    <p class="mb-2 mb-md-0 text-white-50" style="font-size: 0.75rem;">主要銘柄のパフォーマンスと配当率を毎日自動取得</p>
                 </div>
                 <div class="col-12 col-md-4 text-center text-md-end">
                     <span class="refresh-tag">

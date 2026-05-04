@@ -24,7 +24,7 @@ TICKERS = [
     "BND", "AGG", "SHY", "IEF", "TLT", "TIP", "LQD", "HYG", "BNDX", "VWOB",
     # --- 10. コモディティ・不動産・その他 ---
     "GLD", "IAU", "SLV", "USO", "PDBC", "IYR", "VNQ", "XLRE", "VNQI", "BIL",
-    "FRO", "DHT", "HDV", "NAT", "TRMD","XLE","XLF"
+    "FRO", "DHT", "HDV", "NAT", "TRMD"
     
 ]
 

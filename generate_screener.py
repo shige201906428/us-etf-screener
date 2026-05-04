@@ -143,7 +143,7 @@ TICKERS_WITH_SECTOR = {
     "SMH": "ETF（米国セクター・半導体）",
     "SOXX": "ETF（米国セクター・半導体）",
     "VGT": "ETF（米国セクター・情報技術）",
-    "篤V": "ETF（米国セクター・ソフトウェア）",
+    "IGV": "ETF（米国セクター・ソフトウェア）",
     "FDN": "ETF（米国セクター・ネット）",
     "XSD": "ETF（米国セクター・半導体）",
     "SKYY": "ETF（米国セクター・クラウド）",
@@ -188,7 +188,7 @@ TICKERS_WITH_SECTOR = {
     "EWW": "ETF（特定国・メキシコ）",
     "EWZ": "ETF（特定国・ブラジル）",
     "BND": "ETF（米国債券総合）",
-    "AGG": "ETF!（米国債券総合）",
+    "AGG": "ETF（米国債券総合）",
     "SHY": "ETF（米国短期国債）",
     "IEF": "ETF（米国中期国債）",
     "TLT": "ETF（米国長期国債）",
@@ -206,18 +206,11 @@ TICKERS_WITH_SECTOR = {
     "VNQ": "ETF（米国リート総合）",
     "XLRE": "ETF（米国セクター・不動産）",
     "VNQI": "ETF（グローバルリート）",
-    "BIL": "ETF（米国超短期国債・キャッシュ）",
-    "SCHD": "ETF（米国高配当・連続増配）",
-    "JEPI": "ETF（米国カバードコール・高配当）",
-    "JEPQ": "ETF（米国カバードコール・高配当・NASDAQ）",
-    "SPYI": "ETF（米国カバードコール・高配当・S&P500）",
-    "IBIT": "ETF（コモディティ・ビットコイン）",
-    
+    "BIL": "ETF（米国超短期国債・キャッシュ）"
 }
 
 def get_etf_data():
     data_list = []
-    # テクニカル分析用に多めの日数を取得（約60日分）
     for ticker, sector in TICKERS_WITH_SECTOR.items():
         try:
             t = yf.Ticker(ticker)
@@ -225,44 +218,31 @@ def get_etf_data():
             if len(hist) < 26:
                 continue
             
-            # --- テクニカル指標の計算 ---
-            # 1. 移動平均 (SMA 5, 25)
+            # テクニカル指標計算
             hist['SMA5'] = hist['Close'].rolling(window=5).mean()
             hist['SMA25'] = hist['Close'].rolling(window=25).mean()
             
-            # 2. MACD (12, 26, 9)
             ema12 = hist['Close'].ewm(span=12, adjust=False).mean()
             ema26 = hist['Close'].ewm(span=26, adjust=False).mean()
             hist['MACD'] = ema12 - ema26
             hist['Signal'] = hist['MACD'].ewm(span=9, adjust=False).mean()
             
-            # 3. VWAP（簡易計算: 期間内の累計出来高加重平均）
-            # ここでは直近5日間の出来高加重平均価格を使用
             recent_5d = hist.iloc[-5:]
             vwap = (recent_5d['Close'] * recent_5d['Volume']).sum() / recent_5d['Volume'].sum() if recent_5d['Volume'].sum() > 0 else recent_5d['Close'].mean()
             
-            # 直近データ取得
             latest = hist.iloc[-1]
             prev = hist.iloc[-2]
             
-            # 前日比
             change = ((latest["Close"] - prev["Close"]) / prev["Close"]) * 100
             
-            # 配当利回り
             info = t.info
             name = info.get("shortName", ticker)
             div_yield = info.get("trailingAnnualDividendYield") or info.get("yield", 0)
             div_yield_pct = div_yield * 100 if div_yield else 0.0
             
-            # --- ステップ判定ロジック ---
-            # Step 1: MACD 判定（初動）
+            # ステップ判定
             step1_ok = "〇" if latest['MACD'] > latest['Signal'] else "×"
-            
-            # Step 2: SMA 判定（確定・トレンド）
             step2_ok = "〇" if latest['SMA5'] > latest['SMA25'] else "×"
-            
-            # Step 3: VWAP & 出来高判定（信頼度）
-            # 本日の終値がVWAPより上で、かつ本日の出来高が過去5日平均より多いか
             vol_avg_5d = hist['Volume'].iloc[-5:].mean()
             step3_ok = "〇" if (latest['Close'] > vwap) and (latest['Volume'] >= vol_avg_5d) else "×"
 
@@ -278,7 +258,7 @@ def get_etf_data():
                 "Step2": step2_ok,
                 "Step3": step3_ok
             })
-            print(f"Fetched: {ticker} (S1:{step1_ok} S2:{step2_ok} S3:{step3_ok})")
+            print(f"Fetched: {ticker}")
         except Exception as e:
             print(f"Error fetching {ticker}: {e}")
             
@@ -294,7 +274,6 @@ def generate_html(df):
         else:
             row_style = ""
 
-        # 前日比カラー
         if row['Change'] > 0:
             change_style = "color: #dc3545; font-weight: bold;"
             sign = "+"
@@ -308,14 +287,18 @@ def generate_html(df):
         yield_style = "color: #198754; font-weight: bold;" if row['Yield'] > 0 else "color: #6c757d;"
         yield_display = f"{row['Yield']:.2f}%" if row['Yield'] > 0 else "-"
 
-        # 判定バッジのカラーリング
         badge_s1 = "bg-success" if row['Step1'] == "〇" else "bg-secondary opacity-50"
         badge_s2 = "bg-success" if row['Step2'] == "〇" else "bg-secondary opacity-50"
         badge_s3 = "bg-success" if row['Step3'] == "〇" else "bg-secondary opacity-50"
 
+        # TradingView へのダイレクトリンク生成
+        tv_link = f"https://www.tradingview.com/symbols/{row['Ticker']}/"
+
         table_rows += f"""
                         <tr {row_style}>
-                            <td class="p-2 text-center"><span class="badge bg-dark text-white p-1" style="font-size: 0.75rem; min-width: 42px;">{row['Ticker']}</span></td>
+                            <td class="p-2 text-center">
+                                <a href="{tv_link}" target="_blank" rel="noopener noreferrer" class="badge bg-dark text-white p-1 text-decoration-none hover-link" style="font-size: 0.75rem; min-width: 42px;">{row['Ticker']}</a>
+                            </td>
                             <td class="p-2 d-none d-md-table-cell"><span class="fw-bold text-truncate d-inline-block" style="max-width: 150px;">{row['Name']}</span></td>
                             <td class="p-2 d-none d-lg-table-cell"><span class="text-muted text-truncate d-inline-block" style="max-width: 130px; font-size: 0.75rem;">{row['Sector']}</span></td>
                             <td class="text-end p-2 fw-bold">${row['Price']:,.2f}</td>
@@ -333,8 +316,6 @@ def generate_html(df):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>米国ETF・株式デイリースクリーナー</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {{
@@ -382,6 +363,10 @@ def generate_html(df):
         }}
         .table tbody tr:hover {{
             background-color: #f8fafc;
+        }}
+        .hover-link:hover {{
+            background-color: #3b82f6 !important;
+            transition: background-color 0.2s ease-in-out;
         }}
         .refresh-tag {{
             font-size: 0.75rem;
@@ -437,7 +422,7 @@ def generate_html(df):
         
         <div class="text-center mt-3">
             <p class="text-muted" style="font-size: 0.7rem;">
-                ※S1: MACD > Signal | S2: SMA5 > SMA25 | S3: 価格 > VWAP かつ 出来高 > 5日平均<br>
+                ※ティッカー記号をクリックすると、 TradingView の詳細チャートへ移動します。<br>
                 データソース: Yahoo! Finance | 自動更新
             </p>
         </div>
@@ -453,7 +438,6 @@ def generate_html(df):
 if __name__ == "__main__":
     df_etf = get_etf_data()
     if not df_etf.empty:
-        # 配当利回りの高い順にソート
         df_etf = df_etf.sort_values(by="Yield", ascending=False)
         generate_html(df_etf)
         print(f"Successfully generated index.html with {len(df_etf)} items.")

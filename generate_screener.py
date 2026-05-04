@@ -23,7 +23,9 @@ TICKERS = [
     # --- 9. 債券・キャッシュ ---
     "BND", "AGG", "SHY", "IEF", "TLT", "TIP", "LQD", "HYG", "BNDX", "VWOB",
     # --- 10. コモディティ・不動産・その他 ---
-    "GLD", "IAU", "SLV", "USO", "PDBC", "IYR", "VNQ", "XLRE", "VNQI", "BIL"
+    "GLD", "IAU", "SLV", "USO", "PDBC", "IYR", "VNQ", "XLRE", "VNQI", "BIL",
+    "FRO", "DHT", "HDV", "NAT", "TRMD","XLE","XLF"
+    
 ]
 
 def get_etf_data():
@@ -72,7 +74,7 @@ def generate_html(df):
     table_rows = ""
     for _, row in df.iterrows():
         # SPYD または XLF の行に特別な背景色（薄い緑色）と枠線用のスタイルを設定
-        if row['Ticker'] in ["SPYD", "XLF"]:
+        if row['Ticker'] in ["SPYD", "XLF", "HDV", "EPI", "FRO", "DHT","NAT","TRMD","XLE"]:
             row_style = 'style="background-color: #e8f5e9 !important; border-left: 5px solid #2e7d32;"'
         else:
             row_style = ""

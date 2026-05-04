@@ -72,7 +72,7 @@ def generate_html(df):
     table_rows = ""
     for _, row in df.iterrows():
         # ハイライト対象：SPYD, XLF, FRO, DHT, NAT, TRMD
-        if row['Ticker'] in ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD"]:
+        if row['Ticker'] in ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD","HDV"]:
             row_style = 'style="background-color: #e8f5e9 !important; border-left: 4px solid #2e7d32;"'
         else:
             row_style = ""

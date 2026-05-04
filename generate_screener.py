@@ -3,10 +3,45 @@ import pandas as pd
 from datetime import datetime
 
 # 米国主要ETF 100選 ＋ 追加個別銘柄（重複削除済み）
+# 米国主要ETF 100選 ＋ 追加個別株104銘柄（合計204銘柄・重複削除済み）
 TICKERS = [
-    # --- 追加された高配当個別銘柄（タンカー等） ---
+    # --- 元の追加個別銘柄（タンカー等） ---
     "FRO", "DHT", "NAT", "TRMD",
 
+    # --- 新規追加：米国主要個別銘柄 100選 ---
+    # 【マグニフィセント・セブン ＆ IT・ハイテク】
+    "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA", "AVGO", "ORCL", "CRM",
+    "CSCO", "ACN", "ADBE", "TXN", "QCOM", "AMD", "INTC", "MU", "AMAT", "LRCX",
+
+    # 【ヘルスケア・製薬】
+    "JNJ", "UNH", "LLY", "MRK", "ABV", "PFE", "TMO", "ABT", "BMY", "AMGN",
+    "GILD", "ISRG", "VRTX", "REGN",
+
+    # 【金融・フィンテック】
+    "JPM", "BAC", "WFC", "C", "GS", "MS", "V", "MA", "AXP", "PYPL",
+    "BLK", "SPGI", "BRK.B",
+
+    # 【生活必需品・一般消費財】
+    "PG", "KO", "PEP", "COST", "WMT", "NKE", "SBUX", "MCD", "HD", "LOW",
+    "PM", "MO", "CL", "EL",
+
+    # 【資本財・製造・防衛】
+    "CAT", "DE", "GE", "MMM", "HON", "LMT", "RTX", "BA", "UNP", "UPS",
+    "FDX", "WM",
+
+    # 【エネルギー・素材・公益】
+    "XOM", "CVX", "COP", "SLB", "EOG", "LIN", "APD", "FCX", "NEM", "NEE",
+    "DUK", "D",
+
+    # 【通信・エンターテインメント】
+    "T", "VZ", "DIS", "NFLX", "CMCSA",
+
+    # 【高配当・REIT・その他注目銘柄】
+    "O", "SPG", "AMT", "CCI", "PLTR", "SNOW", "SQ", "ABNB", "UBER",
+
+    # ==========================================
+    # --- 以下、元のETF 100選（カテゴリ別） ---
+    # ==========================================
     # --- 1. 主要株価指数 ---
     "SPY", "VOO", "IVV", "QQQ", "DIA", "IWM", "MDY", "IWB", "VTI", "ITOT",
     # --- 2. 高配当・増配・バリュー株 ---

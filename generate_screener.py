@@ -4,9 +4,35 @@ from datetime import datetime
 
 # ピックアップしたい米国ETFのティッカーシンボル
 TICKERS = [
-    "SPY", "QQQ", "DIA", "IWM", "VTI", 
-    "VOO", "VEU", "VWO", "IYW", "XLK", 
-    "XLF", "XLV", "XLE", "GLD", "TLT"
+    # --- 1. 主要株価指数（コア資産） ---
+    "SPY", "VOO", "IVV", "QQQ", "DIA", "IWM", "MDY", "IWB", "VTI", "ITOT",
+
+    # --- 2. 高配当・増配・バリュー株 ---
+    "VYM", "HDV", "SPYD", "DVY", "SDY", "NOBL", "VIG", "DGRW", "IVE", "VTV",
+
+    # --- 3. グロース株・モメンタム ---
+    "IVW", "VUG", "IWF", "MTUM", "ARKK", "QQQM", "RPG", "MGK", "IWY", "SPYG",
+
+    # --- 4. セクター別（IT・ハイテク・半導体） ---
+    "XLK", "IYW", "SMH", "SOXX", "VGT", "IGV", "FDN", "XSD", "SKYY", "IYW",
+
+    # --- 5. セクター別（ヘルスケア・生活必需品・通信） ---
+    "XLV", "VHT", "XBI", "IBB", "XLP", "VDC", "XLC", "VOX", "IYZ", "XLY",
+
+    # --- 6. セクター別（金融・資本財・素材・エネルギー・公益） ---
+    "XLF", "VFH", "KRE", "XLI", "VIS", "XLB", "VAW", "XLE", "VDE", "XLU",
+
+    # --- 7. 米国以外の先進国・新興国（グローバル） ---
+    "VEA", "IEFA", "EFA", "VWO", "IEMG", "EEM", "VT", "ACWI", "VXUS", "EWT",
+
+    # --- 8. 特定国（日本・欧州・中国・インド・新興国） ---
+    "EWJ", "DXJ", "VGK", "EZU", "FXI", "MCHI", "INDA", "EPI", "EWW", "EWZ",
+
+    # --- 9. 債券・キャッシュ（短期・中期・長期・総合） ---
+    "BND", "AGG", "SHY", "IEF", "TLT", "TIP", "LQD", "HYG", "BNDX", "VWOB",
+
+    # --- 10. コモディティ・不動産（リート）・その他 ---
+    "GLD", "IAU", "SLV", "USO", "PDBC", "IYR", "VNQ", "XLRE", "VNQI", "BIL"
 ]
 
 def get_etf_data():

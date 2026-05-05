@@ -1,9 +1,8 @@
-from datetime import datetime
-import numpy as np
-import pandas as pd
 import yfinance as yf
+import pandas as pd
+from datetime import datetime
 
-# 米国主要ETF・個別株リストと業種情報
+# 銘柄とセクター情報の定義
 TICKERS_WITH_SECTOR = {
     "FRO": "エネルギー（石油タンカー）",
     "DHT": "エネルギー（石油タンカー）",
@@ -33,7 +32,7 @@ TICKERS_WITH_SECTOR = {
     "UNH": "ヘルスケア（医療保険・サービス）",
     "LLY": "ヘルスケア（医薬品）",
     "MRK": "ヘルスケア（医薬品）",
-    "ABV": "ヘルスケア（医薬品）",
+    "ABBV": "ヘルスケア（医薬品）",
     "PFE": "ヘルスケア（医薬品）",
     "TMO": "ヘルスケア（ライフサイエンス）",
     "ABT": "ヘルスケア（医療機器・日用品）",
@@ -55,7 +54,7 @@ TICKERS_WITH_SECTOR = {
     "PYPL": "金融（デジタル決済）",
     "BLK": "金融（資産運用）",
     "SPGI": "金融（金融情報・格付け）",
-    "BRK.B": "金融（複合企業・保険）",
+    "BRK-B": "金融（複合企業・保険）",
     "PG": "生活必需品（家庭用品）",
     "KO": "生活必需品（飲料）",
     "PEP": "生活必需品（飲料・スナック）",
@@ -206,54 +205,43 @@ TICKERS_WITH_SECTOR = {
     "VNQ": "ETF（米国リート総合）",
     "XLRE": "ETF（米国セクター・不動産）",
     "VNQI": "ETF（グローバルリート）",
-    "BIL": "ETF（米国超短期国債・キャッシュ）",
-    "MAIN": "金融（中堅企業向け融資・BDC）",
-    "ARCC": "金融（中堅企業向け融資・BDC）",
-    "ENB": "エネルギー（石油・ガスパイプライン）",
-    "EPD": "エネルギー（石油・ガスパイプライン）",
-    "SO": "公益事業（電力）",
-    "VICI": "不動産（カジノ・エンタメREIT）",
-    "WPC": "不動産（多角化REIT）",
-    "IBM": "情報技術（ITサービス・クラウド）"
+    "BIL": "ETF（米国超短期国債・キャッシュ）"
 }
+
+# 星印をつける銘柄（配当王など）
+STAR_TICKERS = ["CVX", "KO", "JNJ", "PG"]
+
+# ▽ ハイライト対象の銘柄リスト（追加分を含む）
+HIGHLIGHT_TICKERS = [
+    "SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD", "HDV", "XLE", "EPI"
+]
 
 def get_etf_data():
     data_list = []
     for ticker, sector in TICKERS_WITH_SECTOR.items():
         try:
             t = yf.Ticker(ticker)
-            hist = t.history(period="3mo")
-            if len(hist) < 26:
+            hist = t.history(period="5d")
+            if hist.empty:
                 continue
-            
-            # テクニカル指標計算
-            hist['SMA5'] = hist['Close'].rolling(window=5).mean()
-            hist['SMA25'] = hist['Close'].rolling(window=25).mean()
-            
-            ema12 = hist['Close'].ewm(span=12, adjust=False).mean()
-            ema26 = hist['Close'].ewm(span=26, adjust=False).mean()
-            hist['MACD'] = ema12 - ema26
-            hist['Signal'] = hist['MACD'].ewm(span=9, adjust=False).mean()
-            
-            recent_5d = hist.iloc[-5:]
-            vwap = (recent_5d['Close'] * recent_5d['Volume']).sum() / recent_5d['Volume'].sum() if recent_5d['Volume'].sum() > 0 else recent_5d['Close'].mean()
             
             latest = hist.iloc[-1]
             prev = hist.iloc[-2]
-            
             change = ((latest["Close"] - prev["Close"]) / prev["Close"]) * 100
             
             info = t.info
             name = info.get("shortName", ticker)
-            div_yield = info.get("trailingAnnualDividendYield") or info.get("yield", 0)
+            
+            # 星印の適用
+            if ticker in STAR_TICKERS:
+                name = "★ " + name
+            
+            # 配当利回りの取得
+            div_yield = info.get("trailingAnnualDividendYield")
+            if div_yield is None:
+                div_yield = info.get("yield", 0)
             div_yield_pct = div_yield * 100 if div_yield else 0.0
             
-            # ステップ判定
-            step1_ok = "〇" if latest['MACD'] > latest['Signal'] else "×"
-            step2_ok = "〇" if latest['SMA5'] > latest['SMA25'] else "×"
-            vol_avg_5d = hist['Volume'].iloc[-5:].mean()
-            step3_ok = "〇" if (latest['Close'] > vwap) and (latest['Volume'] >= vol_avg_5d) else "×"
-
             data_list.append({
                 "Ticker": ticker,
                 "Name": name,
@@ -261,10 +249,7 @@ def get_etf_data():
                 "Price": round(latest["Close"], 2),
                 "Change": round(change, 2),
                 "Volume": int(latest["Volume"]),
-                "Yield": round(div_yield_pct, 2),
-                "Step1": step1_ok,
-                "Step2": step2_ok,
-                "Step3": step3_ok
+                "Yield": round(div_yield_pct, 2)
             })
             print(f"Fetched: {ticker}")
         except Exception as e:
@@ -277,11 +262,13 @@ def generate_html(df):
 
     table_rows = ""
     for _, row in df.iterrows():
-        if row['Ticker'] in ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD", "HDV", "XLE", "EPI"]:
-            row_style = 'style="background-color: #e8f5e9 !important; border-left: 4px solid #2e7d32;"'
+        # ハイライト設定（★付き4社 または HIGHLIGHT_TICKERSに含まれる銘柄）
+        if row['Ticker'] in STAR_TICKERS or row['Ticker'] in HIGHLIGHT_TICKERS:
+            row_style = 'style="background-color: #e8f5e9 !important; border-left: 5px solid #2e7d32;"'
         else:
             row_style = ""
 
+        # 前日比カラー
         if row['Change'] > 0:
             change_style = "color: #dc3545; font-weight: bold;"
             sign = "+"
@@ -295,26 +282,17 @@ def generate_html(df):
         yield_style = "color: #198754; font-weight: bold;" if row['Yield'] > 0 else "color: #6c757d;"
         yield_display = f"{row['Yield']:.2f}%" if row['Yield'] > 0 else "-"
 
-        badge_s1 = "bg-success" if row['Step1'] == "〇" else "bg-secondary opacity-50"
-        badge_s2 = "bg-success" if row['Step2'] == "〇" else "bg-secondary opacity-50"
-        badge_s3 = "bg-success" if row['Step3'] == "〇" else "bg-secondary opacity-50"
-
-        # TradingView へのダイレクトリンク生成
-        tv_link = f"https://www.tradingview.com/symbols/{row['Ticker']}/"
-
         table_rows += f"""
                         <tr {row_style}>
-                            <td class="p-2 text-center">
-                                <a href="{tv_link}" target="_blank" rel="noopener noreferrer" class="badge bg-dark text-white p-1 text-decoration-none hover-link" style="font-size: 0.75rem; min-width: 42px;">{row['Ticker']}</a>
+                            <td><span class="badge bg-dark text-white px-3 py-2" style="font-size: 0.9rem;">{row['Ticker']}</span></td>
+                            <td>
+                                <span class="fw-bold">{row['Name']}</span><br>
+                                <small class="text-muted">{row['Sector']}</small>
                             </td>
-                            <td class="p-2 d-none d-md-table-cell"><span class="fw-bold text-truncate d-inline-block" style="max-width: 150px;">{row['Name']}</span></td>
-                            <td class="p-2 d-none d-lg-table-cell"><span class="text-muted text-truncate d-inline-block" style="max-width: 130px; font-size: 0.75rem;">{row['Sector']}</span></td>
-                            <td class="text-end p-2 fw-bold">${row['Price']:,.2f}</td>
-                            <td class="text-end p-2" style="{change_style}">{sign}{row['Change']:.2f}%</td>
-                            <td class="text-end p-2" style="{yield_style}">{yield_display}</td>
-                            <td class="text-center p-2"><span class="badge {badge_s1}">{row['Step1']}</span></td>
-                            <td class="text-center p-2"><span class="badge {badge_s2}">{row['Step2']}</span></td>
-                            <td class="text-center p-2"><span class="badge {badge_s3}">{row['Step3']}</span></td>
+                            <td class="text-end fw-bold">${row['Price']:,.2f}</td>
+                            <td class="text-end" style="{change_style}">{sign}{row['Change']:.2f}%</td>
+                            <td class="text-end" style="{yield_style}">{yield_display}</td>
+                            <td class="text-end text-muted small">{row['Volume']:,}</td>
                         </tr>"""
 
     html_template = f"""<!DOCTYPE html>
@@ -322,103 +300,40 @@ def generate_html(df):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>米国ETF・株式デイリースクリーナー</title>
+    <title>米国ETF・株式 デイリースクリーナー</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {{
-            background-color: #f4f6f9;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            color: #333;
-            padding-bottom: 20px;
-        }}
-        .header-section {{
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: #fff;
-            padding: 20px 0;
-            margin-bottom: 15px;
-            border-bottom: 4px solid #3b82f6;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }}
-        .card {{
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            background-color: #ffffff;
-        }}
-        .table-responsive {{
-            border-radius: 8px;
-            overflow: hidden;
-        }}
-        .table {{
-            margin-bottom: 0;
-            vertical-align: middle;
-        }}
-        .table thead th {{
-            background-color: #f8fafc;
-            color: #475569;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.68rem;
-            letter-spacing: 0.05em;
-            padding: 10px 6px;
-            border-bottom: 2px solid #e2e8f0;
-        }}
-        .table tbody td {{
-            font-size: 0.78rem;
-            padding: 8px 6px;
-            border-bottom: 1px solid #f1f5f9;
-        }}
-        .table tbody tr:hover {{
-            background-color: #f8fafc;
-        }}
-        .hover-link:hover {{
-            background-color: #3b82f6 !important;
-            transition: background-color 0.2s ease-in-out;
-        }}
-        .refresh-tag {{
-            font-size: 0.75rem;
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 4px 8px;
-            border-radius: 12px;
-            display: inline-block;
-            backdrop-filter: blur(4px);
-        }}
+        body {{ background-color: #f4f6f9; font-family: 'Inter', sans-serif; padding-bottom: 40px; }}
+        .header-section {{ background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #fff; padding: 30px 0; margin-bottom: 20px; border-bottom: 4px solid #3b82f6; }}
+        .card {{ border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }}
+        .table thead th {{ background-color: #f8fafc; color: #475569; font-size: 0.75rem; letter-spacing: 0.05em; padding: 15px; }}
+        .table tbody td {{ padding: 12px 15px; vertical-align: middle; font-size: 0.85rem; }}
+        .refresh-tag {{ font-size: 0.8rem; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; }}
     </style>
 </head>
 <body>
-
     <div class="header-section">
-        <div class="container">
-            <div class="row align-items-center text-center text-md-start">
-                <div class="col-12 col-md-8">
-                    <h1 class="fw-bold mb-1" style="letter-spacing: -0.5px; font-size: 1.4rem;">🇺🇸 米国主要ETF・株式一覧</h1>
-                    <p class="mb-2 mb-md-0 text-white-50" style="font-size: 0.75rem;">Step1: 初動(MACD) | Step2: トレンド(SMA) | Step3: 信頼度(VWAP・出来高)</p>
-                </div>
-                <div class="col-12 col-md-4 text-center text-md-end">
-                    <span class="refresh-tag">
-                        ⏱️ 更新: <strong>{now}</strong>
-                    </span>
-                </div>
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="h3 fw-bold mb-0">🇺🇸 米国ETF・株式 スクリーナー</h1>
+                <p class="mb-0 text-white-50 small">★=配当王 / 緑背景=注目銘柄</p>
             </div>
+            <div class="refresh-tag">⏱️ {now}</div>
         </div>
     </div>
-
-    <div class="container px-2 px-sm-3">
-        <div class="card p-1 p-sm-2">
+    <div class="container">
+        <div class="card p-3">
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
+                <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col" class="text-center" style="width: 10%;">Symbol</th>
-                            <th scope="col" class="d-none d-md-table-cell" style="width: 22%;">銘柄名</th>
-                            <th scope="col" class="d-none d-lg-table-cell" style="width: 20%;">セクター / 種別</th>
-                            <th scope="col" class="text-end" style="width: 12%;">価格</th>
-                            <th scope="col" class="text-end" style="width: 10%;">前日比</th>
-                            <th scope="col" class="text-end" style="width: 10%;">配当</th>
-                            <th scope="col" class="text-center" style="width: 5%;">S1</th>
-                            <th scope="col" class="text-center" style="width: 5%;">S2</th>
-                            <th scope="col" class="text-center" style="width: 5%;">S3</th>
+                            <th>Ticker</th>
+                            <th>銘柄名 / セクター</th>
+                            <th class="text-end">価格</th>
+                            <th class="text-end">前日比</th>
+                            <th class="text-end">配当利回り</th>
+                            <th class="text-end">出来高</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -427,16 +342,7 @@ def generate_html(df):
                 </table>
             </div>
         </div>
-        
-        <div class="text-center mt-3">
-            <p class="text-muted" style="font-size: 0.7rem;">
-                ※ティッカー記号をクリックすると、 TradingView の詳細チャートへ移動します。<br>
-                データソース: Yahoo! Finance | 自動更新
-            </p>
-        </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>"""
 
@@ -446,8 +352,7 @@ def generate_html(df):
 if __name__ == "__main__":
     df_etf = get_etf_data()
     if not df_etf.empty:
+        # 配当利回り順にソート
         df_etf = df_etf.sort_values(by="Yield", ascending=False)
         generate_html(df_etf)
-        print(f"Successfully generated index.html with {len(df_etf)} items.")
-    else:
-        print("No data was fetched.")
+        print("Success!")

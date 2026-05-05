@@ -107,9 +107,15 @@ TICKERS_WITH_SECTOR = {
     "VNQI": "ETF（海外リート）", "BIL": "ETF（キャッシュ）"
 }
 
-# ▽ ここでの定義が反映されます
-# 1. 星印をつける銘柄
-STAR_TICKERS = ["CVX", "KO", "JNJ", "PG"]
+# ▽ 星印（★）をつける銘柄リストを大幅拡充
+STAR_TICKERS = [
+    "CVX", "KO", "JNJ", "PG",             # 配当王
+    "SPY", "VOO", "VTI",                 # S&P500・全米
+    "QQQ",                               # NASDAQ
+    "VYM", "SPYD", "HDV",                # 高配当ETF
+    "DIA", "SMH", "SOXX", "TLT",         # テーマ・債券
+    "VT"                                 # 全世界
+]
 
 # 2. 緑色ハイライト対象（ここに含まれる銘柄のみが緑になります）
 HIGHLIGHT_TICKERS = ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD", "HDV", "XLE", "EPI"]

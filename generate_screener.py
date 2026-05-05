@@ -214,7 +214,7 @@ TICKERS_WITH_SECTOR = {
     "SO": "公益事業（電力）",
     "VICI": "不動産（カジノ・エンタメREIT）",
     "WPC": "不動産（多角化REIT）",
-    "IBM": "情報技術（ITサービス・クラウド）",
+    "IBM": "情報技術（ITサービス・クラウド）"
 }
 
 def get_etf_data():

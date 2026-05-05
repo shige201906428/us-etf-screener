@@ -6,31 +6,35 @@
     <title>米国ETFスクリーナー</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background:#f4f6f9; font-size: 13px; padding-bottom: 20px; color: #333; }
+        body { background:#f4f6f9; font-size: 13px; color: #333; }
         .header { background:#1e293b; color:white; padding: 12px 15px; border-bottom:3px solid #3b82f6; }
         .header h1 { font-size: 16px; margin:0; font-weight:700; }
         .refresh { font-size: 11px; opacity: 0.7; }
         .card { border:none; border-radius:0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .table { margin:0; table-layout: fixed; width: 100%; }
+        .table { margin:0; table-layout: fixed; width: 100%; border-collapse: collapse; }
         .table th { background:#f8fafc; font-size: 10px; padding: 10px 2px; color:#64748b; text-align:center; }
         .table td { padding: 8px 2px; vertical-align: middle; border-bottom: 1px solid #eee; overflow: hidden; }
+        
+        /* ▽ 背景色を最優先で適用 */
+        .highlight-row td { background-color: #dcfce7 !important; border-top: 1px solid #bbf7d0; border-bottom: 1px solid #bbf7d0; }
+        
+        .star-col { color:#f59e0b; font-size:12px; text-align:center; }
         .ticker-badge { background:#334155; color:white; padding:2px 4px; border-radius:3px; font-size:9px; font-weight:bold; }
         .name-text { font-weight:700; line-height:1.2; font-size:11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .sector-text { font-size:9px; color:#94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .highlight-row { background-color: #f0fdf4 !important; }
-        /* 列幅の最適化 */
-        th:nth-child(1), td:nth-child(1) { width: 8%; }  /* 星 */
-        th:nth-child(2), td:nth-child(2) { width: 15%; } /* Ticker */
-        th:nth-child(3), td:nth-child(3) { width: 33%; } /* 名前 */
-        th:nth-child(4), td:nth-child(4) { width: 16%; } /* 価格 */
-        th:nth-child(5), td:nth-child(5) { width: 15%; } /* 比 */
-        th:nth-child(6), td:nth-child(6) { width: 13%; } /* 利回 */
+        
+        th:nth-child(1), td:nth-child(1) { width: 8%; } 
+        th:nth-child(2), td:nth-child(2) { width: 15%; }
+        th:nth-child(3), td:nth-child(3) { width: 33%; }
+        th:nth-child(4), td:nth-child(4) { width: 16%; }
+        th:nth-child(5), td:nth-child(5) { width: 15%; }
+        th:nth-child(6), td:nth-child(6) { width: 13%; }
     </style>
 </head>
 <body>
     <div class="header d-flex justify-content-between align-items-center">
         <h1>🇺🇸 米国株・ETF</h1>
-        <div class="refresh">⏱ 26-05-05 01:16</div>
+        <div class="refresh">⏱ 26-05-05 01:24</div>
     </div>
     <div class="card">
         <table class="table">
@@ -47,7 +51,7 @@
             <tbody>
                 
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">NAT</span></td>
                 <td><div class="name-text">Nordic American Tankers Limited</div><div class="sector-text">エネルギー（石油タンカー）</div></td>
                 <td class="text-end fw-bold">$5.7</td>
@@ -55,7 +59,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">8.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">PFE</span></td>
                 <td><div class="name-text">Pfizer, Inc.</div><div class="sector-text">ヘルスケア（医薬）</div></td>
                 <td class="text-end fw-bold">$26.3</td>
@@ -63,7 +67,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">6.5%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">TRMD</span></td>
                 <td><div class="name-text">TORM plc</div><div class="sector-text">エネルギー（石油タンカー）</div></td>
                 <td class="text-end fw-bold">$33.1</td>
@@ -71,7 +75,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">6.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">UPS</span></td>
                 <td><div class="name-text">United Parcel Service, Inc.</div><div class="sector-text">資本財（物流）</div></td>
                 <td class="text-end fw-bold">$96.3</td>
@@ -79,7 +83,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">6.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VZ</span></td>
                 <td><div class="name-text">Verizon Communications Inc.</div><div class="sector-text">通信サービス（通信）</div></td>
                 <td class="text-end fw-bold">$47.6</td>
@@ -87,7 +91,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">5.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MO</span></td>
                 <td><div class="name-text">Altria Group, Inc.</div><div class="sector-text">生活必需品（タバコ）</div></td>
                 <td class="text-end fw-bold">$73.4</td>
@@ -95,7 +99,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">5.6%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">DHT</span></td>
                 <td><div class="name-text">DHT Holdings, Inc.</div><div class="sector-text">エネルギー（石油タンカー）</div></td>
                 <td class="text-end fw-bold">$18.6</td>
@@ -103,7 +107,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">5.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">O</span></td>
                 <td><div class="name-text">Realty Income Corporation</div><div class="sector-text">不動産（商業REIT）</div></td>
                 <td class="text-end fw-bold">$63.5</td>
@@ -111,7 +115,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">5.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VNQI</span></td>
                 <td><div class="name-text">Vanguard Global ex-U.S. Real Es</div><div class="sector-text">ETF（海外リート）</div></td>
                 <td class="text-end fw-bold">$46.6</td>
@@ -119,7 +123,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">CMCSA</span></td>
                 <td><div class="name-text">Comcast Corporation</div><div class="sector-text">通信（メディア）</div></td>
                 <td class="text-end fw-bold">$27.1</td>
@@ -127,7 +131,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.9%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">FRO</span></td>
                 <td><div class="name-text">Frontline Plc</div><div class="sector-text">エネルギー（石油タンカー）</div></td>
                 <td class="text-end fw-bold">$37.1</td>
@@ -135,7 +139,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">CCI</span></td>
                 <td><div class="name-text">Crown Castle Inc.</div><div class="sector-text">不動産（通信タワー）</div></td>
                 <td class="text-end fw-bold">$90.2</td>
@@ -143,7 +147,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">HYG</span></td>
                 <td><div class="name-text">iShares iBoxx $ High Yield Corp</div><div class="sector-text">ETF（ハイイールド）</div></td>
                 <td class="text-end fw-bold">$79.8</td>
@@ -151,7 +155,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.8%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SPYD</span></td>
                 <td><div class="name-text">State Street SPDR Portfolio S&P</div><div class="sector-text">ETF（高配当株）</div></td>
                 <td class="text-end fw-bold">$46.5</td>
@@ -159,7 +163,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">BMY</span></td>
                 <td><div class="name-text">Bristol-Myers Squibb Company</div><div class="sector-text">ヘルスケア（医薬）</div></td>
                 <td class="text-end fw-bold">$57.4</td>
@@ -167,7 +171,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">T</span></td>
                 <td><div class="name-text">AT&T Inc.</div><div class="sector-text">通信サービス（通信）</div></td>
                 <td class="text-end fw-bold">$26.1</td>
@@ -175,7 +179,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SPG</span></td>
                 <td><div class="name-text">Simon Property Group, Inc.</div><div class="sector-text">不動産（商業REIT）</div></td>
                 <td class="text-end fw-bold">$201.5</td>
@@ -183,7 +187,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLU</span></td>
                 <td><div class="name-text">State Street Utilities Select S</div><div class="sector-text">ETF（公益）</div></td>
                 <td class="text-end fw-bold">$46.4</td>
@@ -191,7 +195,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">BIL</span></td>
                 <td><div class="name-text">State Street SPDR Bloomberg 1-3</div><div class="sector-text">ETF（キャッシュ）</div></td>
                 <td class="text-end fw-bold">$91.4</td>
@@ -199,7 +203,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">4.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">BND</span></td>
                 <td><div class="name-text">Vanguard Total Bond Market ETF</div><div class="sector-text">ETF（債券総合）</div></td>
                 <td class="text-end fw-bold">$73.1</td>
@@ -207,7 +211,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AMT</span></td>
                 <td><div class="name-text">American Tower Corporation (REI</div><div class="sector-text">不動産（通信タワー）</div></td>
                 <td class="text-end fw-bold">$180.9</td>
@@ -215,7 +219,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.8%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLE</span></td>
                 <td><div class="name-text">State Street Energy Select Sect</div><div class="sector-text">ETF（エネルギー）</div></td>
                 <td class="text-end fw-bold">$59.4</td>
@@ -223,7 +227,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">NKE</span></td>
                 <td><div class="name-text">Nike, Inc.</div><div class="sector-text">一般消費財（アパレル）</div></td>
                 <td class="text-end fw-bold">$43.1</td>
@@ -231,7 +235,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.6%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;">★</td>
+                <td class="star-col">★</td>
                 <td><span class="ticker-badge">CVX</span></td>
                 <td><div class="name-text">Chevron Corporation</div><div class="sector-text">エネルギー（石油ガス）</div></td>
                 <td class="text-end fw-bold">$192.3</td>
@@ -239,7 +243,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">PEP</span></td>
                 <td><div class="name-text">Pepsico, Inc.</div><div class="sector-text">生活必需品（飲料）</div></td>
                 <td class="text-end fw-bold">$154.6</td>
@@ -247,7 +251,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ACN</span></td>
                 <td><div class="name-text">Accenture plc</div><div class="sector-text">情報技術（ITサービス）</div></td>
                 <td class="text-end fw-bold">$180.1</td>
@@ -255,7 +259,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VNQ</span></td>
                 <td><div class="name-text">Vanguard Real Estate ETF</div><div class="sector-text">ETF（リート）</div></td>
                 <td class="text-end fw-bold">$95.5</td>
@@ -263,7 +267,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">PM</span></td>
                 <td><div class="name-text">Philip Morris International Inc</div><div class="sector-text">生活必需品（タバコ）</div></td>
                 <td class="text-end fw-bold">$169.2</td>
@@ -271,7 +275,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLRE</span></td>
                 <td><div class="name-text">State Street Real Estate Select</div><div class="sector-text">ETF（不動産）</div></td>
                 <td class="text-end fw-bold">$44.1</td>
@@ -279,7 +283,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">DUK</span></td>
                 <td><div class="name-text">Duke Energy Corporation (Holdin</div><div class="sector-text">公益事業（電力）</div></td>
                 <td class="text-end fw-bold">$127.5</td>
@@ -287,7 +291,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ABBV</span></td>
                 <td><div class="name-text">AbbVie Inc.</div><div class="sector-text">ヘルスケア（医薬）</div></td>
                 <td class="text-end fw-bold">$208.2</td>
@@ -295,7 +299,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VXUS</span></td>
                 <td><div class="name-text">Vanguard Total International St</div><div class="sector-text">ETF（全世界除く米）</div></td>
                 <td class="text-end fw-bold">$82.2</td>
@@ -303,7 +307,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">3.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">LQD</span></td>
                 <td><div class="name-text">iShares iBoxx $ Investment Grad</div><div class="sector-text">ETF（社債）</div></td>
                 <td class="text-end fw-bold">$108.2</td>
@@ -311,7 +315,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VEA</span></td>
                 <td><div class="name-text">Vanguard FTSE Developed Markets</div><div class="sector-text">ETF（先進国除く米）</div></td>
                 <td class="text-end fw-bold">$67.9</td>
@@ -319,7 +323,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AMGN</span></td>
                 <td><div class="name-text">Amgen Inc.</div><div class="sector-text">ヘルスケア（バイオ）</div></td>
                 <td class="text-end fw-bold">$323.9</td>
@@ -327,7 +331,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MRK</span></td>
                 <td><div class="name-text">Merck & Company, Inc.</div><div class="sector-text">ヘルスケア（医薬）</div></td>
                 <td class="text-end fw-bold">$113.1</td>
@@ -335,7 +339,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EOG</span></td>
                 <td><div class="name-text">EOG Resources, Inc.</div><div class="sector-text">エネルギー（石油ガス）</div></td>
                 <td class="text-end fw-bold">$141.6</td>
@@ -343,7 +347,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.9%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;">★</td>
+                <td class="star-col">★</td>
                 <td><span class="ticker-badge">PG</span></td>
                 <td><div class="name-text">Procter & Gamble Company (The)</div><div class="sector-text">生活必需品（家庭用品）</div></td>
                 <td class="text-end fw-bold">$143.4</td>
@@ -351,7 +355,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">HD</span></td>
                 <td><div class="name-text">Home Depot, Inc. (The)</div><div class="sector-text">一般消費財（ホームセンター）</div></td>
                 <td class="text-end fw-bold">$312.4</td>
@@ -359,7 +363,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ABT</span></td>
                 <td><div class="name-text">Abbott Laboratories</div><div class="sector-text">ヘルスケア（医療機器）</div></td>
                 <td class="text-end fw-bold">$87.5</td>
@@ -367,7 +371,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLB</span></td>
                 <td><div class="name-text">State Street Materials Select S</div><div class="sector-text">ETF（素材）</div></td>
                 <td class="text-end fw-bold">$50.6</td>
@@ -375,7 +379,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XOM</span></td>
                 <td><div class="name-text">Exxon Mobil Corporation</div><div class="sector-text">エネルギー（石油ガス）</div></td>
                 <td class="text-end fw-bold">$153.7</td>
@@ -383,7 +387,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">LMT</span></td>
                 <td><div class="name-text">Lockheed Martin Corporation</div><div class="sector-text">資本財（防衛）</div></td>
                 <td class="text-end fw-bold">$518.1</td>
@@ -391,7 +395,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">COP</span></td>
                 <td><div class="name-text">ConocoPhillips</div><div class="sector-text">エネルギー（石油ガス）</div></td>
                 <td class="text-end fw-bold">$124.9</td>
@@ -399,7 +403,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.6%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;">★</td>
+                <td class="star-col">★</td>
                 <td><span class="ticker-badge">KO</span></td>
                 <td><div class="name-text">Coca-Cola Company (The)</div><div class="sector-text">生活必需品（飲料）</div></td>
                 <td class="text-end fw-bold">$78.2</td>
@@ -407,7 +411,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">TLT</span></td>
                 <td><div class="name-text">iShares 20+ Year Treasury Bond </div><div class="sector-text">ETF（長期国債）</div></td>
                 <td class="text-end fw-bold">$85.0</td>
@@ -415,7 +419,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AGG</span></td>
                 <td><div class="name-text">iShares Core U.S. Aggregate Bon</div><div class="sector-text">ETF（債券総合）</div></td>
                 <td class="text-end fw-bold">$98.6</td>
@@ -423,7 +427,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MCD</span></td>
                 <td><div class="name-text">McDonald's Corporation</div><div class="sector-text">一般消費財（外食）</div></td>
                 <td class="text-end fw-bold">$284.1</td>
@@ -431,7 +435,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">NEE</span></td>
                 <td><div class="name-text">NextEra Energy, Inc.</div><div class="sector-text">公益事業（電力）</div></td>
                 <td class="text-end fw-bold">$95.5</td>
@@ -439,7 +443,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">GILD</span></td>
                 <td><div class="name-text">Gilead Sciences, Inc.</div><div class="sector-text">ヘルスケア（バイオ）</div></td>
                 <td class="text-end fw-bold">$132.7</td>
@@ -447,7 +451,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">UNH</span></td>
                 <td><div class="name-text">UnitedHealth Group Incorporated</div><div class="sector-text">ヘルスケア（保険）</div></td>
                 <td class="text-end fw-bold">$370.8</td>
@@ -455,7 +459,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">APD</span></td>
                 <td><div class="name-text">Air Products and Chemicals, Inc</div><div class="sector-text">素材（産業ガス）</div></td>
                 <td class="text-end fw-bold">$298.4</td>
@@ -463,7 +467,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">CL</span></td>
                 <td><div class="name-text">Colgate-Palmolive Company</div><div class="sector-text">生活必需品（家庭用品）</div></td>
                 <td class="text-end fw-bold">$85.4</td>
@@ -471,7 +475,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VYM</span></td>
                 <td><div class="name-text">Vanguard High Dividend Yield ET</div><div class="sector-text">ETF（高配当株）</div></td>
                 <td class="text-end fw-bold">$155.2</td>
@@ -479,7 +483,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SBUX</span></td>
                 <td><div class="name-text">Starbucks Corporation</div><div class="sector-text">一般消費財（カフェ）</div></td>
                 <td class="text-end fw-bold">$105.0</td>
@@ -487,7 +491,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">DVY</span></td>
                 <td><div class="name-text">iShares Select Dividend ETF</div><div class="sector-text">ETF（高配当株）</div></td>
                 <td class="text-end fw-bold">$153.6</td>
@@ -495,7 +499,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.3%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;">★</td>
+                <td class="star-col">★</td>
                 <td><span class="ticker-badge">JNJ</span></td>
                 <td><div class="name-text">Johnson & Johnson</div><div class="sector-text">ヘルスケア（医薬）</div></td>
                 <td class="text-end fw-bold">$224.2</td>
@@ -503,7 +507,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EWZ</span></td>
                 <td><div class="name-text">iShares MSCI Brazil ETF</div><div class="sector-text">ETF（ブラジル）</div></td>
                 <td class="text-end fw-bold">$39.0</td>
@@ -511,7 +515,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">FXI</span></td>
                 <td><div class="name-text">iShares China Large-Cap ETF</div><div class="sector-text">ETF（中国大型）</div></td>
                 <td class="text-end fw-bold">$36.5</td>
@@ -519,7 +523,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">HON</span></td>
                 <td><div class="name-text">Honeywell International Inc.</div><div class="sector-text">資本財（複合）</div></td>
                 <td class="text-end fw-bold">$209.6</td>
@@ -527,7 +531,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">WFC</span></td>
                 <td><div class="name-text">Wells Fargo & Company</div><div class="sector-text">金融（総合銀行）</div></td>
                 <td class="text-end fw-bold">$79.2</td>
@@ -535,7 +539,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">NOBL</span></td>
                 <td><div class="name-text">ProShares S&P 500 Dividend Aris</div><div class="sector-text">ETF（配当貴族）</div></td>
                 <td class="text-end fw-bold">$106.1</td>
@@ -543,7 +547,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MS</span></td>
                 <td><div class="name-text">Morgan Stanley</div><div class="sector-text">金融（投資銀行）</div></td>
                 <td class="text-end fw-bold">$188.0</td>
@@ -551,7 +555,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MMM</span></td>
                 <td><div class="name-text">3M Company</div><div class="sector-text">資本財（複合）</div></td>
                 <td class="text-end fw-bold">$141.6</td>
@@ -559,7 +563,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">BAC</span></td>
                 <td><div class="name-text">Bank of America Corporation</div><div class="sector-text">金融（総合銀行）</div></td>
                 <td class="text-end fw-bold">$52.2</td>
@@ -567,7 +571,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">UNP</span></td>
                 <td><div class="name-text">Union Pacific Corporation</div><div class="sector-text">資本財（鉄道）</div></td>
                 <td class="text-end fw-bold">$263.4</td>
@@ -575,7 +579,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLP</span></td>
                 <td><div class="name-text">State Street Consumer Staples S</div><div class="sector-text">ETF（必需品）</div></td>
                 <td class="text-end fw-bold">$83.5</td>
@@ -583,7 +587,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VGK</span></td>
                 <td><div class="name-text">Vanguard FTSEEuropean ETF</div><div class="sector-text">ETF（欧州）</div></td>
                 <td class="text-end fw-bold">$85.5</td>
@@ -591,7 +595,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">LOW</span></td>
                 <td><div class="name-text">Lowe's Companies, Inc.</div><div class="sector-text">一般消費財（ホームセンター）</div></td>
                 <td class="text-end fw-bold">$223.7</td>
@@ -599,7 +603,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SLB</span></td>
                 <td><div class="name-text">SLB Limited</div><div class="sector-text">エネルギー（石油サービス）</div></td>
                 <td class="text-end fw-bold">$55.6</td>
@@ -607,7 +611,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">QCOM</span></td>
                 <td><div class="name-text">QUALCOMM Incorporated</div><div class="sector-text">情報技術（半導体）</div></td>
                 <td class="text-end fw-bold">$168.4</td>
@@ -615,7 +619,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">BLK</span></td>
                 <td><div class="name-text">BlackRock, Inc.</div><div class="sector-text">金融（資産運用）</div></td>
                 <td class="text-end fw-bold">$1,052.2</td>
@@ -623,7 +627,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">TXN</span></td>
                 <td><div class="name-text">Texas Instruments Incorporated</div><div class="sector-text">情報技術（半導体）</div></td>
                 <td class="text-end fw-bold">$280.9</td>
@@ -631,7 +635,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">2.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IYZ</span></td>
                 <td><div class="name-text">iShares U.S. Telecommunications</div><div class="sector-text">ETF（通信）</div></td>
                 <td class="text-end fw-bold">$42.5</td>
@@ -639,7 +643,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VWO</span></td>
                 <td><div class="name-text">Vanguard FTSE Emerging Markets </div><div class="sector-text">ETF（新興国株）</div></td>
                 <td class="text-end fw-bold">$58.7</td>
@@ -647,7 +651,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">JPM</span></td>
                 <td><div class="name-text">JP Morgan Chase & Co.</div><div class="sector-text">金融（総合銀行）</div></td>
                 <td class="text-end fw-bold">$307.6</td>
@@ -655,7 +659,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">C</span></td>
                 <td><div class="name-text">Citigroup, Inc.</div><div class="sector-text">金融（総合銀行）</div></td>
                 <td class="text-end fw-bold">$125.6</td>
@@ -663,7 +667,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VUG</span></td>
                 <td><div class="name-text">Vanguard Growth ETF</div><div class="sector-text">ETF（グロース）</div></td>
                 <td class="text-end fw-bold">$83.7</td>
@@ -671,7 +675,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IYR</span></td>
                 <td><div class="name-text">iShares U.S. Real Estate ETF</div><div class="sector-text">ETF（リート）</div></td>
                 <td class="text-end fw-bold">$101.6</td>
@@ -679,7 +683,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">CSCO</span></td>
                 <td><div class="name-text">Cisco Systems, Inc.</div><div class="sector-text">情報技術（通信機器）</div></td>
                 <td class="text-end fw-bold">$92.6</td>
@@ -687,7 +691,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EL</span></td>
                 <td><div class="name-text">Estee Lauder Companies, Inc. (T</div><div class="sector-text">生活必需品（化粧品）</div></td>
                 <td class="text-end fw-bold">$81.3</td>
@@ -695,7 +699,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EFA</span></td>
                 <td><div class="name-text">iShares MSCI EAFE ETF</div><div class="sector-text">ETF（先進国除く米）</div></td>
                 <td class="text-end fw-bold">$100.7</td>
@@ -703,7 +707,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">GS</span></td>
                 <td><div class="name-text">Goldman Sachs Group, Inc. (The)</div><div class="sector-text">金融（投資銀行）</div></td>
                 <td class="text-end fw-bold">$903.3</td>
@@ -711,7 +715,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EZU</span></td>
                 <td><div class="name-text">iShares MSCI Eurozone ETF</div><div class="sector-text">ETF（ユーロ圏）</div></td>
                 <td class="text-end fw-bold">$65.1</td>
@@ -719,7 +723,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VIG</span></td>
                 <td><div class="name-text">Vanguard Div Appreciation ETF</div><div class="sector-text">ETF（連続増配）</div></td>
                 <td class="text-end fw-bold">$226.9</td>
@@ -727,7 +731,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">RTX</span></td>
                 <td><div class="name-text">RTX Corporation</div><div class="sector-text">資本財（防衛）</div></td>
                 <td class="text-end fw-bold">$172.9</td>
@@ -735,7 +739,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">WM</span></td>
                 <td><div class="name-text">Waste Management, Inc.</div><div class="sector-text">資本財（廃棄物）</div></td>
                 <td class="text-end fw-bold">$227.8</td>
@@ -743,7 +747,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VTV</span></td>
                 <td><div class="name-text">Vanguard Value ETF</div><div class="sector-text">ETF（バリュー）</div></td>
                 <td class="text-end fw-bold">$204.7</td>
@@ -751,7 +755,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VDE</span></td>
                 <td><div class="name-text">Vanguard Energy ETF</div><div class="sector-text">ETF（エネルギー）</div></td>
                 <td class="text-end fw-bold">$169.2</td>
@@ -759,7 +763,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IEMG</span></td>
                 <td><div class="name-text">iShares Core MSCI Emerging Mark</div><div class="sector-text">ETF（新興国株）</div></td>
                 <td class="text-end fw-bold">$78.6</td>
@@ -767,7 +771,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">FDX</span></td>
                 <td><div class="name-text">FedEx Corporation</div><div class="sector-text">資本財（物流）</div></td>
                 <td class="text-end fw-bold">$357.8</td>
@@ -775,7 +779,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">DIS</span></td>
                 <td><div class="name-text">Walt Disney Company (The)</div><div class="sector-text">通信サービス（娯楽）</div></td>
                 <td class="text-end fw-bold">$101.3</td>
@@ -783,7 +787,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">DGRW</span></td>
                 <td><div class="name-text">WisdomTree U.S. Quality Dividen</div><div class="sector-text">ETF（増配成長）</div></td>
                 <td class="text-end fw-bold">$93.4</td>
@@ -791,7 +795,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VAW</span></td>
                 <td><div class="name-text">Vanguard Materials ETF</div><div class="sector-text">ETF（素材）</div></td>
                 <td class="text-end fw-bold">$228.2</td>
@@ -799,7 +803,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IWF</span></td>
                 <td><div class="name-text">iShares Russell 1000 Growth Fun</div><div class="sector-text">ETF（グロース）</div></td>
                 <td class="text-end fw-bold">$119.8</td>
@@ -807,7 +811,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IVE</span></td>
                 <td><div class="name-text">iShares S&P 500 Value ETF</div><div class="sector-text">ETF（バリュー）</div></td>
                 <td class="text-end fw-bold">$222.1</td>
@@ -815,7 +819,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLV</span></td>
                 <td><div class="name-text">State Street Health Care Select</div><div class="sector-text">ETF（ヘルスケア）</div></td>
                 <td class="text-end fw-bold">$144.7</td>
@@ -823,7 +827,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">LIN</span></td>
                 <td><div class="name-text">Linde plc</div><div class="sector-text">素材（産業ガス）</div></td>
                 <td class="text-end fw-bold">$493.6</td>
@@ -831,7 +835,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EEM</span></td>
                 <td><div class="name-text">iShares MSCI Emerging Index Fun</div><div class="sector-text">ETF（新興国株）</div></td>
                 <td class="text-end fw-bold">$64.1</td>
@@ -839,7 +843,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ORCL</span></td>
                 <td><div class="name-text">Oracle Corporation</div><div class="sector-text">情報技術（ソフト）</div></td>
                 <td class="text-end fw-bold">$180.3</td>
@@ -847,7 +851,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EWW</span></td>
                 <td><div class="name-text">iShares MSCI Mexico ETF</div><div class="sector-text">ETF（メキシコ）</div></td>
                 <td class="text-end fw-bold">$75.7</td>
@@ -855,7 +859,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">DIA</span></td>
                 <td><div class="name-text">State Street SPDR Dow Jones Ind</div><div class="sector-text">ETF（NYダウ）</div></td>
                 <td class="text-end fw-bold">$489.6</td>
@@ -863,7 +867,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLF</span></td>
                 <td><div class="name-text">State Street Financial Select S</div><div class="sector-text">ETF（金融）</div></td>
                 <td class="text-end fw-bold">$51.6</td>
@@ -871,7 +875,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">TIP</span></td>
                 <td><div class="name-text">iShares TIPS Bond ETF</div><div class="sector-text">ETF（物価連動債）</div></td>
                 <td class="text-end fw-bold">$111.2</td>
@@ -879,7 +883,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">DE</span></td>
                 <td><div class="name-text">Deere & Company</div><div class="sector-text">資本財（重機）</div></td>
                 <td class="text-end fw-bold">$578.4</td>
@@ -887,7 +891,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EWT</span></td>
                 <td><div class="name-text">iShares MSCI Taiwan ETF</div><div class="sector-text">ETF（台湾）</div></td>
                 <td class="text-end fw-bold">$90.4</td>
@@ -895,7 +899,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AXP</span></td>
                 <td><div class="name-text">American Express Company</div><div class="sector-text">金融（決済）</div></td>
                 <td class="text-end fw-bold">$319.2</td>
@@ -903,7 +907,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">FCX</span></td>
                 <td><div class="name-text">Freeport-McMoRan, Inc.</div><div class="sector-text">素材（非鉄金属）</div></td>
                 <td class="text-end fw-bold">$55.6</td>
@@ -911,7 +915,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VHT</span></td>
                 <td><div class="name-text">Vanguard Health Care ETF</div><div class="sector-text">ETF（ヘルスケア）</div></td>
                 <td class="text-end fw-bold">$271.3</td>
@@ -919,7 +923,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MDY</span></td>
                 <td><div class="name-text">State Street SPDR S&P MIDCAP 40</div><div class="sector-text">ETF（中型株）</div></td>
                 <td class="text-end fw-bold">$660.3</td>
@@ -927,7 +931,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLY</span></td>
                 <td><div class="name-text">State Street Consumer Discretio</div><div class="sector-text">ETF（消費財）</div></td>
                 <td class="text-end fw-bold">$117.7</td>
@@ -935,7 +939,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IEF</span></td>
                 <td><div class="name-text">iShares 7-10 Year Treasury Bond</div><div class="sector-text">ETF（中期国債）</div></td>
                 <td class="text-end fw-bold">$94.4</td>
@@ -943,7 +947,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">1.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">NEM</span></td>
                 <td><div class="name-text">Newmont Corporation</div><div class="sector-text">素材（金）</div></td>
                 <td class="text-end fw-bold">$108.3</td>
@@ -951,7 +955,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">CRM</span></td>
                 <td><div class="name-text">Salesforce, Inc.</div><div class="sector-text">情報技術（ソフト）</div></td>
                 <td class="text-end fw-bold">$185.5</td>
@@ -959,7 +963,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SPGI</span></td>
                 <td><div class="name-text">S&P Global Inc.</div><div class="sector-text">金融（格付け）</div></td>
                 <td class="text-end fw-bold">$424.8</td>
@@ -967,7 +971,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MSFT</span></td>
                 <td><div class="name-text">Microsoft Corporation</div><div class="sector-text">情報技術（ソフトウェア）</div></td>
                 <td class="text-end fw-bold">$413.6</td>
@@ -975,7 +979,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.9%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VOO</span></td>
                 <td><div class="name-text">Vanguard S&P 500 ETF</div><div class="sector-text">ETF（S&P500）</div></td>
                 <td class="text-end fw-bold">$660.1</td>
@@ -983,7 +987,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EWJ</span></td>
                 <td><div class="name-text">iShares MSCI Japan Index Fund</div><div class="sector-text">ETF（日本）</div></td>
                 <td class="text-end fw-bold">$88.1</td>
@@ -991,7 +995,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IVV</span></td>
                 <td><div class="name-text">iShares Core S&P 500 ETF</div><div class="sector-text">ETF（S&P500）</div></td>
                 <td class="text-end fw-bold">$721.4</td>
@@ -999,7 +1003,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VTI</span></td>
                 <td><div class="name-text">Vanguard Total Stock Market ETF</div><div class="sector-text">ETF（米国株総合）</div></td>
                 <td class="text-end fw-bold">$354.0</td>
@@ -1007,7 +1011,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SPY</span></td>
                 <td><div class="name-text">State Street SPDR S&P 500 ETF T</div><div class="sector-text">ETF（S&P500）</div></td>
                 <td class="text-end fw-bold">$718.0</td>
@@ -1015,7 +1019,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">V</span></td>
                 <td><div class="name-text">Visa Inc.</div><div class="sector-text">金融（決済）</div></td>
                 <td class="text-end fw-bold">$326.9</td>
@@ -1023,7 +1027,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ITOT</span></td>
                 <td><div class="name-text">iShares Core S&P Total U.S. Sto</div><div class="sector-text">ETF（米国株総合）</div></td>
                 <td class="text-end fw-bold">$157.2</td>
@@ -1031,7 +1035,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.8%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IWB</span></td>
                 <td><div class="name-text">iShares Russell 1000 ETF</div><div class="sector-text">ETF（大型株）</div></td>
                 <td class="text-end fw-bold">$392.4</td>
@@ -1039,7 +1043,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLI</span></td>
                 <td><div class="name-text">State Street Industrial Select </div><div class="sector-text">ETF（資本財）</div></td>
                 <td class="text-end fw-bold">$171.0</td>
@@ -1047,7 +1051,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IWM</span></td>
                 <td><div class="name-text">iShares Russell 2000 Index Fund</div><div class="sector-text">ETF（小型株）</div></td>
                 <td class="text-end fw-bold">$277.9</td>
@@ -1055,7 +1059,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">WMT</span></td>
                 <td><div class="name-text">Walmart Inc.</div><div class="sector-text">生活必需品（小売）</div></td>
                 <td class="text-end fw-bold">$130.3</td>
@@ -1063,7 +1067,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">CAT</span></td>
                 <td><div class="name-text">Caterpillar, Inc.</div><div class="sector-text">資本財（重機）</div></td>
                 <td class="text-end fw-bold">$874.8</td>
@@ -1071,7 +1075,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLK</span></td>
                 <td><div class="name-text">State Street Technology Select </div><div class="sector-text">ETF（IT）</div></td>
                 <td class="text-end fw-bold">$162.1</td>
@@ -1079,7 +1083,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SOXX</span></td>
                 <td><div class="name-text">iShares PHLX SOX Semiconductor </div><div class="sector-text">ETF（半導体）</div></td>
                 <td class="text-end fw-bold">$462.1</td>
@@ -1087,7 +1091,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MA</span></td>
                 <td><div class="name-text">Mastercard Incorporated</div><div class="sector-text">金融（決済）</div></td>
                 <td class="text-end fw-bold">$504.7</td>
@@ -1095,7 +1099,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">LLY</span></td>
                 <td><div class="name-text">Eli Lilly and Company</div><div class="sector-text">ヘルスケア（医薬）</div></td>
                 <td class="text-end fw-bold">$967.9</td>
@@ -1103,7 +1107,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VIS</span></td>
                 <td><div class="name-text">Vanguard Industrials ETF</div><div class="sector-text">ETF（資本財）</div></td>
                 <td class="text-end fw-bold">$333.6</td>
@@ -1111,7 +1115,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.7%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AVGO</span></td>
                 <td><div class="name-text">Broadcom Inc.</div><div class="sector-text">情報技術（半導体）</div></td>
                 <td class="text-end fw-bold">$416.5</td>
@@ -1119,7 +1123,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">PYPL</span></td>
                 <td><div class="name-text">PayPal Holdings, Inc.</div><div class="sector-text">金融（決済）</div></td>
                 <td class="text-end fw-bold">$50.4</td>
@@ -1127,7 +1131,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.6%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">GE</span></td>
                 <td><div class="name-text">GE Aerospace</div><div class="sector-text">資本財（総合工業）</div></td>
                 <td class="text-end fw-bold">$280.5</td>
@@ -1135,7 +1139,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">COST</span></td>
                 <td><div class="name-text">Costco Wholesale Corporation</div><div class="sector-text">生活必需品（量販店）</div></td>
                 <td class="text-end fw-bold">$1,012.8</td>
@@ -1143,7 +1147,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">REGN</span></td>
                 <td><div class="name-text">Regeneron Pharmaceuticals, Inc.</div><div class="sector-text">ヘルスケア（バイオ）</div></td>
                 <td class="text-end fw-bold">$709.2</td>
@@ -1151,7 +1155,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AMAT</span></td>
                 <td><div class="name-text">Applied Materials, Inc.</div><div class="sector-text">情報技術（半導体装置）</div></td>
                 <td class="text-end fw-bold">$391.4</td>
@@ -1159,7 +1163,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VOX</span></td>
                 <td><div class="name-text">Vanguard Communication Services</div><div class="sector-text">ETF（通信）</div></td>
                 <td class="text-end fw-bold">$195.9</td>
@@ -1167,7 +1171,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.5%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VGT</span></td>
                 <td><div class="name-text">Vanguard Information Tech ETF</div><div class="sector-text">ETF（IT）</div></td>
                 <td class="text-end fw-bold">$105.0</td>
@@ -1175,7 +1179,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SPYG</span></td>
                 <td><div class="name-text">State Street SPDR Portfolio S&P</div><div class="sector-text">ETF（グロース）</div></td>
                 <td class="text-end fw-bold">$112.9</td>
@@ -1183,7 +1187,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">LRCX</span></td>
                 <td><div class="name-text">Lam Research Corporation</div><div class="sector-text">情報技術（半導体装置）</div></td>
                 <td class="text-end fw-bold">$258.6</td>
@@ -1191,7 +1195,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">TMO</span></td>
                 <td><div class="name-text">Thermo Fisher Scientific Inc</div><div class="sector-text">ヘルスケア（ライフサイエンス）</div></td>
                 <td class="text-end fw-bold">$462.6</td>
@@ -1199,7 +1203,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SHY</span></td>
                 <td><div class="name-text">iShares 1-3 Year Treasury Bond </div><div class="sector-text">ETF（短期国債）</div></td>
                 <td class="text-end fw-bold">$82.2</td>
@@ -1207,7 +1211,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AAPL</span></td>
                 <td><div class="name-text">Apple Inc.</div><div class="sector-text">情報技術（ハードウェア）</div></td>
                 <td class="text-end fw-bold">$276.8</td>
@@ -1215,7 +1219,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.4%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XBI</span></td>
                 <td><div class="name-text">State Street SPDR S&P Biotech E</div><div class="sector-text">ETF（バイオ）</div></td>
                 <td class="text-end fw-bold">$133.5</td>
@@ -1223,7 +1227,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">META</span></td>
                 <td><div class="name-text">Meta Platforms, Inc.</div><div class="sector-text">通信（ネットメディア）</div></td>
                 <td class="text-end fw-bold">$610.4</td>
@@ -1231,7 +1235,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IVW</span></td>
                 <td><div class="name-text">iShares S&P 500 Growth ETF</div><div class="sector-text">ETF（グロース）</div></td>
                 <td class="text-end fw-bold">$130.4</td>
@@ -1239,7 +1243,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">QQQ</span></td>
                 <td><div class="name-text">Invesco QQQ Trust, Series 1</div><div class="sector-text">ETF（NASDAQ100）</div></td>
                 <td class="text-end fw-bold">$672.9</td>
@@ -1247,7 +1251,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.3%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">GOOGL</span></td>
                 <td><div class="name-text">Alphabet Inc.</div><div class="sector-text">通信（ネットメディア）</div></td>
                 <td class="text-end fw-bold">$383.2</td>
@@ -1255,7 +1259,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IBB</span></td>
                 <td><div class="name-text">iShares Biotechnology ETF</div><div class="sector-text">ETF（バイオ）</div></td>
                 <td class="text-end fw-bold">$170.2</td>
@@ -1263,7 +1267,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.2%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MU</span></td>
                 <td><div class="name-text">Micron Technology, Inc.</div><div class="sector-text">情報技術（半導体）</div></td>
                 <td class="text-end fw-bold">$576.5</td>
@@ -1271,7 +1275,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XSD</span></td>
                 <td><div class="name-text">State Street SPDR S&P Semicondu</div><div class="sector-text">ETF（半導体）</div></td>
                 <td class="text-end fw-bold">$496.3</td>
@@ -1279,7 +1283,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.1%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">NVDA</span></td>
                 <td><div class="name-text">NVIDIA Corporation</div><div class="sector-text">情報技術（半導体）</div></td>
                 <td class="text-end fw-bold">$198.5</td>
@@ -1287,7 +1291,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IYW</span></td>
                 <td><div class="name-text">iShares U.S. Technology ETF</div><div class="sector-text">ETF（IT）</div></td>
                 <td class="text-end fw-bold">$221.0</td>
@@ -1295,7 +1299,7 @@
                 <td class="text-end" style="color:#198754; font-weight:bold;">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">BA</span></td>
                 <td><div class="name-text">Boeing Company (The)</div><div class="sector-text">資本財（航空宇宙）</div></td>
                 <td class="text-end fw-bold">$221.3</td>
@@ -1303,7 +1307,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AMD</span></td>
                 <td><div class="name-text">Advanced Micro Devices, Inc.</div><div class="sector-text">情報技術（半導体）</div></td>
                 <td class="text-end fw-bold">$341.5</td>
@@ -1311,7 +1315,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">INTC</span></td>
                 <td><div class="name-text">Intel Corporation</div><div class="sector-text">情報技術（半導体）</div></td>
                 <td class="text-end fw-bold">$95.8</td>
@@ -1319,7 +1323,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VRTX</span></td>
                 <td><div class="name-text">Vertex Pharmaceuticals Incorpor</div><div class="sector-text">ヘルスケア（バイオ）</div></td>
                 <td class="text-end fw-bold">$429.9</td>
@@ -1327,7 +1331,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ISRG</span></td>
                 <td><div class="name-text">Intuitive Surgical, Inc.</div><div class="sector-text">ヘルスケア（医療機器）</div></td>
                 <td class="text-end fw-bold">$452.4</td>
@@ -1335,7 +1339,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">AMZN</span></td>
                 <td><div class="name-text">Amazon.com, Inc.</div><div class="sector-text">一般消費財（小売）</div></td>
                 <td class="text-end fw-bold">$272.1</td>
@@ -1343,7 +1347,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">BRK-B</span></td>
                 <td><div class="name-text">Berkshire Hathaway Inc. New</div><div class="sector-text">金融（複合）</div></td>
                 <td class="text-end fw-bold">$468.5</td>
@@ -1351,7 +1355,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">TSLA</span></td>
                 <td><div class="name-text">Tesla, Inc.</div><div class="sector-text">一般消費財（自動車）</div></td>
                 <td class="text-end fw-bold">$392.5</td>
@@ -1359,7 +1363,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ADBE</span></td>
                 <td><div class="name-text">Adobe Inc.</div><div class="sector-text">情報技術（ソフト）</div></td>
                 <td class="text-end fw-bold">$254.0</td>
@@ -1367,7 +1371,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ABNB</span></td>
                 <td><div class="name-text">Airbnb, Inc.</div><div class="sector-text">一般消費財（旅行）</div></td>
                 <td class="text-end fw-bold">$138.9</td>
@@ -1375,7 +1379,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">UBER</span></td>
                 <td><div class="name-text">Uber Technologies, Inc.</div><div class="sector-text">一般消費財（配達）</div></td>
                 <td class="text-end fw-bold">$73.9</td>
@@ -1383,7 +1387,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">PLTR</span></td>
                 <td><div class="name-text">Palantir Technologies Inc.</div><div class="sector-text">情報技術（AI）</div></td>
                 <td class="text-end fw-bold">$146.0</td>
@@ -1391,7 +1395,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">NFLX</span></td>
                 <td><div class="name-text">Netflix, Inc.</div><div class="sector-text">通信（配信）</div></td>
                 <td class="text-end fw-bold">$91.0</td>
@@ -1399,7 +1403,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SMH</span></td>
                 <td><div class="name-text">VanEck Semiconductor ETF</div><div class="sector-text">ETF（半導体）</div></td>
                 <td class="text-end fw-bold">$506.8</td>
@@ -1407,7 +1411,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MGK</span></td>
                 <td><div class="name-text">Vanguard Mega Cap Growth ETF</div><div class="sector-text">ETF（メガキャップ）</div></td>
                 <td class="text-end fw-bold">$84.6</td>
@@ -1415,7 +1419,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IWY</span></td>
                 <td><div class="name-text">iShares Russell Top 200 Growth </div><div class="sector-text">ETF（大型株）</div></td>
                 <td class="text-end fw-bold">$280.3</td>
@@ -1423,7 +1427,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">RPG</span></td>
                 <td><div class="name-text">Invesco S&P 500 Pure Growth ETF</div><div class="sector-text">ETF（グロース）</div></td>
                 <td class="text-end fw-bold">$55.0</td>
@@ -1431,7 +1435,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MTUM</span></td>
                 <td><div class="name-text">iShares MSCI USA Momentum Facto</div><div class="sector-text">ETF（モメンタム）</div></td>
                 <td class="text-end fw-bold">$284.3</td>
@@ -1439,7 +1443,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ARKK</span></td>
                 <td><div class="name-text">ARK Innovation ETF</div><div class="sector-text">ETF（破壊的革新）</div></td>
                 <td class="text-end fw-bold">$78.2</td>
@@ -1447,7 +1451,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">QQQM</span></td>
                 <td><div class="name-text">Invesco NASDAQ 100 ETF</div><div class="sector-text">ETF（NASDAQ100）</div></td>
                 <td class="text-end fw-bold">$277.1</td>
@@ -1455,7 +1459,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">HDV</span></td>
                 <td><div class="name-text">iShares Core High Dividend ETF</div><div class="sector-text">ETF（高配当株）</div></td>
                 <td class="text-end fw-bold">$27.2</td>
@@ -1463,7 +1467,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SDY</span></td>
                 <td><div class="name-text">State Street SPDR S&P Dividend </div><div class="sector-text">ETF（高配当増配）</div></td>
                 <td class="text-end fw-bold">$147.5</td>
@@ -1471,7 +1475,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SNOW</span></td>
                 <td><div class="name-text">Snowflake Inc.</div><div class="sector-text">情報技術（クラウド）</div></td>
                 <td class="text-end fw-bold">$144.2</td>
@@ -1479,7 +1483,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">D</span></td>
                 <td><div class="name-text">Dominion Energy, Inc.</div><div class="sector-text">公益事業（電力）</div></td>
                 <td class="text-end fw-bold">$63.0</td>
@@ -1487,7 +1491,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IGV</span></td>
                 <td><div class="name-text">iShares Expanded Tech-Software </div><div class="sector-text">ETF（ソフト）</div></td>
                 <td class="text-end fw-bold">$88.4</td>
@@ -1495,7 +1499,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SKYY</span></td>
                 <td><div class="name-text">First Trust Cloud Computing ETF</div><div class="sector-text">ETF（クラウド）</div></td>
                 <td class="text-end fw-bold">$126.6</td>
@@ -1503,7 +1507,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VDC</span></td>
                 <td><div class="name-text">Vanguard Consumer Staples ETF</div><div class="sector-text">ETF（必需品）</div></td>
                 <td class="text-end fw-bold">$229.8</td>
@@ -1511,7 +1515,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">XLC</span></td>
                 <td><div class="name-text">State Street Communication Serv</div><div class="sector-text">ETF（通信）</div></td>
                 <td class="text-end fw-bold">$116.1</td>
@@ -1519,7 +1523,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VFH</span></td>
                 <td><div class="name-text">Vanguard Financials ETF</div><div class="sector-text">ETF（金融）</div></td>
                 <td class="text-end fw-bold">$126.8</td>
@@ -1527,7 +1531,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">ACWI</span></td>
                 <td><div class="name-text">iShares MSCI ACWI ETF</div><div class="sector-text">ETF（全世界株）</div></td>
                 <td class="text-end fw-bold">$150.7</td>
@@ -1535,7 +1539,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VT</span></td>
                 <td><div class="name-text">Vanguard Total World Stock Inde</div><div class="sector-text">ETF（全世界株）</div></td>
                 <td class="text-end fw-bold">$150.6</td>
@@ -1543,7 +1547,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IEFA</span></td>
                 <td><div class="name-text">iShares Core MSCI EAFE ETF</div><div class="sector-text">ETF（先進国除く米）</div></td>
                 <td class="text-end fw-bold">$94.2</td>
@@ -1551,7 +1555,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">KRE</span></td>
                 <td><div class="name-text">State Street SPDR S&P Regional </div><div class="sector-text">ETF（地銀）</div></td>
                 <td class="text-end fw-bold">$69.0</td>
@@ -1559,7 +1563,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">FDN</span></td>
                 <td><div class="name-text">First Trust DJ Internet Index F</div><div class="sector-text">ETF（ネット）</div></td>
                 <td class="text-end fw-bold">$267.7</td>
@@ -1567,7 +1571,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">INDA</span></td>
                 <td><div class="name-text">Ishares MSCI India ETF</div><div class="sector-text">ETF（インド）</div></td>
                 <td class="text-end fw-bold">$48.6</td>
@@ -1575,7 +1579,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">DXJ</span></td>
                 <td><div class="name-text">WisdomTree Japan Hedged Equity </div><div class="sector-text">ETF（日本ヘッジ）</div></td>
                 <td class="text-end fw-bold">$160.8</td>
@@ -1583,7 +1587,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">MCHI</span></td>
                 <td><div class="name-text">iShares MSCI China ETF</div><div class="sector-text">ETF（中国総合）</div></td>
                 <td class="text-end fw-bold">$57.3</td>
@@ -1591,7 +1595,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="highlight-row">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">EPI</span></td>
                 <td><div class="name-text">WisdomTree India Earnings Fund</div><div class="sector-text">ETF（インド）</div></td>
                 <td class="text-end fw-bold">$42.8</td>
@@ -1599,7 +1603,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">GLD</span></td>
                 <td><div class="name-text">SPDR Gold Shares</div><div class="sector-text">ETF（金）</div></td>
                 <td class="text-end fw-bold">$414.7</td>
@@ -1607,7 +1611,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">VWOB</span></td>
                 <td><div class="name-text">Vanguard Emerging Markets Gover</div><div class="sector-text">ETF（新興国債）</div></td>
                 <td class="text-end fw-bold">$66.4</td>
@@ -1615,7 +1619,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">BNDX</span></td>
                 <td><div class="name-text">Vanguard Total International Bo</div><div class="sector-text">ETF（先進国債）</div></td>
                 <td class="text-end fw-bold">$47.8</td>
@@ -1623,7 +1627,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">IAU</span></td>
                 <td><div class="name-text">iShares Gold Trust Shares</div><div class="sector-text">ETF（金）</div></td>
                 <td class="text-end fw-bold">$85.0</td>
@@ -1631,7 +1635,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">PDBC</span></td>
                 <td><div class="name-text">Invesco Optimum Yield Diversifi</div><div class="sector-text">ETF（商品総合）</div></td>
                 <td class="text-end fw-bold">$18.7</td>
@@ -1639,7 +1643,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">SLV</span></td>
                 <td><div class="name-text">iShares Silver Trust</div><div class="sector-text">ETF（銀）</div></td>
                 <td class="text-end fw-bold">$65.9</td>
@@ -1647,7 +1651,7 @@
                 <td class="text-end" style="">0.0%</td>
             </tr>
             <tr class="">
-                <td class="text-center" style="color:#f59e0b; font-size:12px;"></td>
+                <td class="star-col"></td>
                 <td><span class="ticker-badge">USO</span></td>
                 <td><div class="name-text">United States Oil Fund</div><div class="sector-text">ETF（原油）</div></td>
                 <td class="text-end fw-bold">$147.6</td>

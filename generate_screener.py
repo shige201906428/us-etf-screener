@@ -107,9 +107,11 @@ TICKERS_WITH_SECTOR = {
     "VNQI": "ETF（海外リート）", "BIL": "ETF（キャッシュ）"
 }
 
-# 星印銘柄
+# ▽ ここでの定義が反映されます
+# 1. 星印をつける銘柄
 STAR_TICKERS = ["CVX", "KO", "JNJ", "PG"]
-# ハイライト銘柄
+
+# 2. 緑色ハイライト対象（ここに含まれる銘柄のみが緑になります）
 HIGHLIGHT_TICKERS = ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD", "HDV", "XLE", "EPI"]
 
 def get_etf_data():
@@ -138,11 +140,16 @@ def get_etf_data():
 def generate_html(df):
     now = datetime.now().strftime("%y-%m-%d %H:%M")
     table_rows = ""
+    
     for _, row in df.iterrows():
+        # 星印の判定
         is_star = row['Ticker'] in STAR_TICKERS
-        is_highlight = is_star or row['Ticker'] in HIGHLIGHT_TICKERS
-        row_class = "highlight-row" if is_highlight else ""
         star_icon = "★" if is_star else ""
+        
+        # ▽ 緑ハイライトの判定（HIGHLIGHT_TICKERSに含まれる場合のみ）
+        is_highlight = row['Ticker'] in HIGHLIGHT_TICKERS
+        row_class = "highlight-row" if is_highlight else ""
+        
         change_style = "color:#dc3545;" if row['Change'] > 0 else ("color:#0d6efd;" if row['Change'] < 0 else "")
         yield_style = "color:#198754; font-weight:bold;" if row['Yield'] > 0 else ""
         
@@ -173,8 +180,8 @@ def generate_html(df):
         .table th {{ background:#f8fafc; font-size: 10px; padding: 10px 2px; color:#64748b; text-align:center; }}
         .table td {{ padding: 8px 2px; vertical-align: middle; border-bottom: 1px solid #eee; overflow: hidden; }}
         
-        /* ▽ 背景色を最優先で適用 */
-        .highlight-row td {{ background-color: #dcfce7 !important; border-top: 1px solid #bbf7d0; border-bottom: 1px solid #bbf7d0; }}
+        /* 緑色ハイライト用のスタイル */
+        .highlight-row td {{ background-color: #dcfce7 !important; }}
         
         .star-col {{ color:#f59e0b; font-size:12px; text-align:center; }}
         .ticker-badge {{ background:#334155; color:white; padding:2px 4px; border-radius:3px; font-size:9px; font-weight:bold; }}

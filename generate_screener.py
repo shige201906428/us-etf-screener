@@ -107,6 +107,7 @@ TICKERS_WITH_SECTOR = {
     "VNQI": "ETF（海外リート）", "BIL": "ETF（キャッシュ）"
 }
 
+# ▽ 星リストとハイライトリスト
 STAR_TICKERS = ["CVX", "KO", "JNJ", "PG", "SPY", "VOO", "VTI", "QQQ", "VYM", "SPYD", "HDV", "DIA", "SMH", "SOXX", "TLT", "VT"]
 HIGHLIGHT_TICKERS = ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD", "HDV", "XLE", "EPI"]
 
@@ -143,18 +144,16 @@ def generate_html(df):
         star_icon = "★" if is_star else ""
         change_style = "color:#dc3545;" if row['Change'] > 0 else ("color:#0d6efd;" if row['Change'] < 0 else "")
         yield_style = "color:#198754; font-weight:bold;" if row['Yield'] > 0 else ""
-        
-        # TradingViewのURL生成
         tv_url = f"https://jp.tradingview.com/symbols/{row['Ticker']}/"
 
         table_rows += f"""
             <tr class="{row_class}">
                 <td class="star-col">{star_icon}</td>
-                <td><a href="{tv_url}" target="_blank" class="ticker-link"><span class="ticker-badge">{row['Ticker']}</span></a></td>
-                <td><div class="name-text">{row['Name']}</div><div class="sector-text">{row['Sector']}</div></td>
-                <td class="text-end fw-bold">${row['Price']:,.1f}</td>
-                <td class="text-end fw-bold" style="{change_style}">{row['Change']:+.1f}%</td>
-                <td class="text-end" style="{yield_style}">{row['Yield']:.1f}%</td>
+                <td class="ticker-col"><a href="{tv_url}" target="_blank" class="ticker-link"><span class="ticker-badge">{row['Ticker']}</span></a></td>
+                <td class="name-col"><div class="name-text">{row['Name']}</div><div class="sector-text">{row['Sector']}</div></td>
+                <td class="price-col fw-bold">${row['Price']:,.1f}</td>
+                <td class="change-col fw-bold" style="{change_style}">{row['Change']:+.1f}%</td>
+                <td class="yield-col" style="{yield_style}">{row['Yield']:.1f}%</td>
             </tr>"""
 
     html_template = f"""<!DOCTYPE html>
@@ -170,26 +169,24 @@ def generate_html(df):
         .header h1 {{ font-size: 16px; margin:0; font-weight:700; }}
         .refresh {{ font-size: 11px; opacity: 0.7; }}
         .card {{ border:none; border-radius:0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }}
-        .table {{ margin:0; table-layout: fixed; width: 100%; border-collapse: collapse; }}
-        .table th {{ background:#f8fafc; font-size: 10px; padding: 10px 2px; color:#64748b; text-align:center; }}
-        .table td {{ padding: 8px 2px; vertical-align: middle; border-bottom: 1px solid #eee; overflow: hidden; }}
-        .highlight-row td {{ background-color: #dcfce7 !important; }}
-        .star-col {{ color:#f59e0b; font-size:12px; text-align:center; }}
         
-        /* リンク設定 */
-        .ticker-link {{ text-decoration: none !important; display: block; }}
-        .ticker-badge {{ background:#334155; color:white; padding:2px 4px; border-radius:3px; font-size:9px; font-weight:bold; display: inline-block; }}
-        .ticker-badge:active {{ background:#3b82f6; }}
+        .table {{ margin:0; table-layout: fixed; width: 100%; border-collapse: collapse; }}
+        .table th {{ background:#f8fafc; font-size: 10px; padding: 10px 5px; color:#64748b; vertical-align: middle; }}
+        .table td {{ padding: 8px 5px; vertical-align: middle; border-bottom: 1px solid #eee; overflow: hidden; }}
+        
+        /* ▽ 各列の幅と配置を固定 */
+        .star-col {{ width: 8%; text-align: center; color:#f59e0b; font-size:12px; }}
+        .ticker-col {{ width: 15%; text-align: center; }}
+        .name-col {{ width: 34%; text-align: left; }}
+        .price-col {{ width: 15%; text-align: right; padding-right: 10px !important; }}
+        .change-col {{ width: 15%; text-align: right; padding-right: 10px !important; }}
+        .yield-col {{ width: 13%; text-align: right; padding-right: 10px !important; }}
 
+        .highlight-row td {{ background-color: #dcfce7 !important; }}
+        .ticker-link {{ text-decoration: none !important; display: block; }}
+        .ticker-badge {{ background:#334155; color:white; padding:2px 4px; border-radius:3px; font-size:9px; font-weight:bold; display: inline-block; min-width: 40px; }}
         .name-text {{ font-weight:700; line-height:1.2; font-size:11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
         .sector-text {{ font-size:9px; color:#94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
-        
-        th:nth-child(1), td:nth-child(1) {{ width: 8%; }} 
-        th:nth-child(2), td:nth-child(2) {{ width: 15%; }}
-        th:nth-child(3), td:nth-child(3) {{ width: 33%; }}
-        th:nth-child(4), td:nth-child(4) {{ width: 16%; }}
-        th:nth-child(5), td:nth-child(5) {{ width: 15%; }}
-        th:nth-child(6), td:nth-child(6) {{ width: 13%; }}
     </style>
 </head>
 <body>
@@ -201,12 +198,12 @@ def generate_html(df):
         <table class="table">
             <thead>
                 <tr>
-                    <th>注</th>
-                    <th>Ticker</th>
-                    <th style="text-align:left;">銘柄 / セクター</th>
-                    <th class="text-end">価格</th>
-                    <th class="text-end">比</th>
-                    <th class="text-end">利回</th>
+                    <th class="star-col">注</th>
+                    <th class="ticker-col">Ticker</th>
+                    <th class="name-col">銘柄 / セクター</th>
+                    <th class="price-col text-end">価格</th>
+                    <th class="change-col text-end">比</th>
+                    <th class="yield-col text-end">利回</th>
                 </tr>
             </thead>
             <tbody>

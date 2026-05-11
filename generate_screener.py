@@ -2,7 +2,7 @@ import yfinance as yf
 import pandas as pd
 from datetime import datetime
 
-# 銘柄とセクター情報の定義
+# 銘柄とセクター情報の定義（変更なし）
 TICKERS_WITH_SECTOR = {
     "FRO": "エネルギー（石油タンカー）", "DHT": "エネルギー（石油タンカー）",
     "NAT": "エネルギー（石油タンカー）", "TRMD": "エネルギー（石油タンカー）",
@@ -107,7 +107,6 @@ TICKERS_WITH_SECTOR = {
     "VNQI": "ETF（海外リート）", "BIL": "ETF（キャッシュ）"
 }
 
-# ▽ 星リストとハイライトリスト
 STAR_TICKERS = ["CVX", "KO", "JNJ", "PG", "SPY", "VOO", "VTI", "QQQ", "VYM", "SPYD", "HDV", "DIA", "SMH", "SOXX", "TLT", "VT"]
 HIGHLIGHT_TICKERS = ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD", "HDV", "XLE", "EPI"]
 
@@ -121,15 +120,24 @@ def get_etf_data():
             latest = hist.iloc[-1]
             prev = hist.iloc[-2]
             change = ((latest["Close"] - prev["Close"]) / prev["Close"]) * 100
+            
             info = t.info
             name = info.get("shortName", ticker)
+            
+            # 配当利回りの取得
             div_yield = info.get("trailingAnnualDividendYield")
             if div_yield is None: div_yield = info.get("yield", 0)
             div_yield_pct = div_yield * 100 if div_yield else 0.0
+            
+            # 経費率の取得 (expenseRatio は小数表記なので100倍する)
+            exp_ratio = info.get("expenseRatio")
+            exp_ratio_pct = round(exp_ratio * 100, 2) if exp_ratio else None
+
             data_list.append({
                 "Ticker": ticker, "Name": name, "Sector": sector,
                 "Price": round(latest["Close"], 2), "Change": round(change, 2),
-                "Volume": int(latest["Volume"]), "Yield": round(div_yield_pct, 2)
+                "Yield": round(div_yield_pct, 2),
+                "Expense": exp_ratio_pct
             })
         except: continue
     return pd.DataFrame(data_list)
@@ -144,6 +152,10 @@ def generate_html(df):
         star_icon = "★" if is_star else ""
         change_style = "color:#dc3545;" if row['Change'] > 0 else ("color:#0d6efd;" if row['Change'] < 0 else "")
         yield_style = "color:#198754; font-weight:bold;" if row['Yield'] > 0 else ""
+        
+        # 経費率の表示処理
+        exp_display = f"{row['Expense']}%" if row['Expense'] is not None else "-"
+        
         tv_url = f"https://jp.tradingview.com/symbols/{row['Ticker']}/"
 
         table_rows += f"""
@@ -154,6 +166,7 @@ def generate_html(df):
                 <td class="price-col fw-bold">${row['Price']:,.1f}</td>
                 <td class="change-col fw-bold" style="{change_style}">{row['Change']:+.1f}%</td>
                 <td class="yield-col" style="{yield_style}">{row['Yield']:.1f}%</td>
+                <td class="exp-col">{exp_display}</td>
             </tr>"""
 
     html_template = f"""<!DOCTYPE html>
@@ -161,32 +174,33 @@ def generate_html(df):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>米国ETFスクリーナー</title>
+    <title>米国株・ETFスクリーナー</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {{ background:#f4f6f9; font-size: 13px; color: #333; }}
+        body {{ background:#f4f6f9; font-size: 12px; color: #333; }}
         .header {{ background:#1e293b; color:white; padding: 12px 15px; border-bottom:3px solid #3b82f6; }}
         .header h1 {{ font-size: 16px; margin:0; font-weight:700; }}
         .refresh {{ font-size: 11px; opacity: 0.7; }}
         .card {{ border:none; border-radius:0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }}
         
         .table {{ margin:0; table-layout: fixed; width: 100%; border-collapse: collapse; }}
-        .table th {{ background:#f8fafc; font-size: 10px; padding: 10px 5px; color:#64748b; vertical-align: middle; }}
-        .table td {{ padding: 8px 5px; vertical-align: middle; border-bottom: 1px solid #eee; overflow: hidden; }}
+        .table th {{ background:#f8fafc; font-size: 9px; padding: 8px 2px; color:#64748b; vertical-align: middle; text-align: center; }}
+        .table td {{ padding: 8px 2px; vertical-align: middle; border-bottom: 1px solid #eee; overflow: hidden; }}
         
-        /* ▽ 各列の幅と配置を固定 */
-        .star-col {{ width: 8%; text-align: center; color:#f59e0b; font-size:12px; }}
-        .ticker-col {{ width: 15%; text-align: center; }}
-        .name-col {{ width: 34%; text-align: left; }}
-        .price-col {{ width: 15%; text-align: right; padding-right: 10px !important; }}
-        .change-col {{ width: 15%; text-align: right; padding-right: 10px !important; }}
-        .yield-col {{ width: 13%; text-align: right; padding-right: 10px !important; }}
+        /* 列幅調整 */
+        .star-col {{ width: 6%; text-align: center; color:#f59e0b; font-size:10px; }}
+        .ticker-col {{ width: 14%; text-align: center; }}
+        .name-col {{ width: 30%; text-align: left; }}
+        .price-col {{ width: 13%; text-align: right; }}
+        .change-col {{ width: 12%; text-align: right; }}
+        .yield-col {{ width: 12%; text-align: right; }}
+        .exp-col {{ width: 13%; text-align: right; padding-right: 8px !important; color: #666; font-size: 10px; }}
 
         .highlight-row td {{ background-color: #dcfce7 !important; }}
         .ticker-link {{ text-decoration: none !important; display: block; }}
-        .ticker-badge {{ background:#334155; color:white; padding:2px 4px; border-radius:3px; font-size:9px; font-weight:bold; display: inline-block; min-width: 40px; }}
-        .name-text {{ font-weight:700; line-height:1.2; font-size:11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
-        .sector-text {{ font-size:9px; color:#94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+        .ticker-badge {{ background:#334155; color:white; padding:2px 4px; border-radius:3px; font-size:9px; font-weight:bold; display: inline-block; min-width: 38px; }}
+        .name-text {{ font-weight:700; line-height:1.2; font-size:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+        .sector-text {{ font-size:8px; color:#94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
     </style>
 </head>
 <body>
@@ -200,10 +214,11 @@ def generate_html(df):
                 <tr>
                     <th class="star-col">注</th>
                     <th class="ticker-col">Ticker</th>
-                    <th class="name-col">銘柄 / セクター</th>
-                    <th class="price-col text-end">価格</th>
-                    <th class="change-col text-end">比</th>
-                    <th class="yield-col text-end">利回</th>
+                    <th class="name-col">銘柄/セクター</th>
+                    <th class="price-col">価格</th>
+                    <th class="change-col">比</th>
+                    <th class="yield-col">利回</th>
+                    <th class="exp-col">経費</th>
                 </tr>
             </thead>
             <tbody>
@@ -218,5 +233,6 @@ def generate_html(df):
 if __name__ == "__main__":
     df = get_etf_data()
     if not df.empty:
+        # 利回り順にソート
         df = df.sort_values(by="Yield", ascending=False)
         generate_html(df)

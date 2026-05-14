@@ -1,9 +1,9 @@
 import yfinance as yf
 import pandas as pd
 from datetime import datetime
-import os
+import time
 
-# 1. 銘柄・セクター定義
+# 銘柄定義（元のリストを維持）
 TICKERS_WITH_SECTOR = {
     "FRO": "エネルギー（石油タンカー）", "DHT": "エネルギー（石油タンカー）",
     "NAT": "エネルギー（石油タンカー）", "TRMD": "エネルギー（石油タンカー）",
@@ -113,11 +113,16 @@ HIGHLIGHT_TICKERS = ["SPYD", "XLF", "FRO", "DHT", "NAT", "TRMD", "HDV", "XLE", "
 
 def get_etf_data():
     data_list = []
-    print(f"データ取得中... ({len(TICKERS_WITH_SECTOR)}銘柄)")
-    for ticker, sector in TICKERS_WITH_SECTOR.items():
+    total = len(TICKERS_WITH_SECTOR)
+    print(f"データ取得中... ({total}銘柄)")
+
+    for i, (ticker, sector) in enumerate(TICKERS_WITH_SECTOR.items(), 1):
         try:
+            # サーバー負荷とアクセス制限を考慮
+            time.sleep(0.2)
             t = yf.Ticker(ticker)
-            # 5日分の履歴を取得して前日比を計算
+            
+            # 履歴取得
             hist = t.history(period="5d")
             if hist.empty: continue
             
@@ -125,26 +130,23 @@ def get_etf_data():
             prev = hist.iloc[-2]
             change = ((latest["Close"] - prev["Close"]) / prev["Close"]) * 100
             
+            # 銘柄情報の取得
             info = t.info
-            name = info.get("shortName", ticker)
+            name = info.get("shortName") or info.get("longName") or ticker
             
-            # 利回り
-            div_yield = info.get("trailingAnnualDividendYield")
-            if div_yield is None: div_yield = info.get("yield", 0)
-            div_yield_pct = div_yield * 100 if div_yield else 0.0
-            
-            # --- 経費率取得の強化 (ここが重要) ---
-            exp_ratio = None
+            # 利回りの取得
+            div_yield = info.get("yield") or info.get("trailingAnnualDividendYield") or 0.0
+            div_yield_pct = div_yield * 100
+
+            # 経費率の取得 (ETFのみ)
+            exp_ratio_pct = None
             if "ETF" in sector:
-                # Yahoo Finance APIの複数の場所から取得を試みる
-                search_keys = ["expenseRatio", "annualReportExpenseRatio", "feesExpensesTotalExpenses"]
+                search_keys = ["expenseRatio", "annualReportExpenseRatio", "netExpenseRatio", "feesExpensesTotalExpenses"]
                 for key in search_keys:
                     val = info.get(key)
-                    if val is not None:
-                        exp_ratio = val
+                    if val is not None and val != 0:
+                        exp_ratio_pct = round(val * 100, 3) # 経費率は細かいので小数第3位まで
                         break
-            
-            exp_ratio_pct = round(exp_ratio * 100, 2) if exp_ratio is not None else None
 
             data_list.append({
                 "Ticker": ticker, "Name": name, "Sector": sector,
@@ -152,14 +154,16 @@ def get_etf_data():
                 "Yield": round(div_yield_pct, 2),
                 "Expense": exp_ratio_pct
             })
+            if i % 10 == 0: print(f"進捗: {i}/{total}")
+
         except Exception as e:
-            print(f"Error fetching {ticker}: {e}")
+            print(f"Error {ticker}: {e}")
             continue
+
     return pd.DataFrame(data_list)
 
 def generate_html(df):
     now = datetime.now().strftime("%y-%m-%d %H:%M")
-    # 利回りの高い順にソート
     df = df.sort_values(by="Yield", ascending=False)
     
     table_rows = ""
@@ -168,11 +172,10 @@ def generate_html(df):
         row_class = "highlight-row" if row['Ticker'] in HIGHLIGHT_TICKERS else ""
         star_icon = "★" if is_star else ""
         
-        # 色付けのロジック
         change_style = "color:#dc3545;" if row['Change'] > 0 else ("color:#0d6efd;" if row['Change'] < 0 else "")
         yield_style = "color:#198754; font-weight:bold;" if row['Yield'] > 0 else ""
         
-        # 経費率の表示形式
+        # 経費率の表示判定（Noneならハイフン）
         exp_display = f"{row['Expense']}%" if row['Expense'] is not None else "-"
         tv_url = f"https://jp.tradingview.com/symbols/{row['Ticker']}/"
 
@@ -187,7 +190,6 @@ def generate_html(df):
                 <td class="exp-col">{exp_display}</td>
             </tr>"""
 
-    # HTMLテンプレート (CSS含む)
     html_content = f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -241,6 +243,7 @@ def generate_html(df):
 </body>
 </html>"""
     with open("index.html", "w", encoding="utf-8") as f: f.write(html_content)
+    print("生成完了: index.html")
 
 if __name__ == "__main__":
     df = get_etf_data()

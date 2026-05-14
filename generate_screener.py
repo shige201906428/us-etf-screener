@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 import os
 
-# 1. 銘柄・セクター定義（100銘柄以上）
+# 1. 銘柄・セクター定義
 TICKERS_WITH_SECTOR = {
     "FRO": "エネルギー（石油タンカー）", "DHT": "エネルギー（石油タンカー）",
     "NAT": "エネルギー（石油タンカー）", "TRMD": "エネルギー（石油タンカー）",
@@ -117,6 +117,7 @@ def get_etf_data():
     for ticker, sector in TICKERS_WITH_SECTOR.items():
         try:
             t = yf.Ticker(ticker)
+            # 5日分の履歴を取得して前日比を計算
             hist = t.history(period="5d")
             if hist.empty: continue
             
@@ -132,10 +133,16 @@ def get_etf_data():
             if div_yield is None: div_yield = info.get("yield", 0)
             div_yield_pct = div_yield * 100 if div_yield else 0.0
             
-            # 経費率（取得キーを強化）
-            exp_ratio = info.get("expenseRatio")
-            if exp_ratio is None:
-                exp_ratio = info.get("annualReportExpenseRatio")
+            # --- 経費率取得の強化 (ここが重要) ---
+            exp_ratio = None
+            if "ETF" in sector:
+                # Yahoo Finance APIの複数の場所から取得を試みる
+                search_keys = ["expenseRatio", "annualReportExpenseRatio", "feesExpensesTotalExpenses"]
+                for key in search_keys:
+                    val = info.get(key)
+                    if val is not None:
+                        exp_ratio = val
+                        break
             
             exp_ratio_pct = round(exp_ratio * 100, 2) if exp_ratio is not None else None
 
@@ -145,12 +152,14 @@ def get_etf_data():
                 "Yield": round(div_yield_pct, 2),
                 "Expense": exp_ratio_pct
             })
-        except:
+        except Exception as e:
+            print(f"Error fetching {ticker}: {e}")
             continue
     return pd.DataFrame(data_list)
 
 def generate_html(df):
     now = datetime.now().strftime("%y-%m-%d %H:%M")
+    # 利回りの高い順にソート
     df = df.sort_values(by="Yield", ascending=False)
     
     table_rows = ""
@@ -158,8 +167,12 @@ def generate_html(df):
         is_star = row['Ticker'] in STAR_TICKERS
         row_class = "highlight-row" if row['Ticker'] in HIGHLIGHT_TICKERS else ""
         star_icon = "★" if is_star else ""
+        
+        # 色付けのロジック
         change_style = "color:#dc3545;" if row['Change'] > 0 else ("color:#0d6efd;" if row['Change'] < 0 else "")
         yield_style = "color:#198754; font-weight:bold;" if row['Yield'] > 0 else ""
+        
+        # 経費率の表示形式
         exp_display = f"{row['Expense']}%" if row['Expense'] is not None else "-"
         tv_url = f"https://jp.tradingview.com/symbols/{row['Ticker']}/"
 
@@ -174,6 +187,7 @@ def generate_html(df):
                 <td class="exp-col">{exp_display}</td>
             </tr>"""
 
+    # HTMLテンプレート (CSS含む)
     html_content = f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
